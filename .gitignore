@@ -1,2 +1,6 @@
 # Build folder
 build/
+node_modules/
+
+# stuff i have no clue about
+size-plugin.json
