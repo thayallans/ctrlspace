@@ -11,4 +11,36 @@
 // For more information on Content Scripts,
 // See https://developer.chrome.com/extensions/content_scripts
 
-document.addEventListener('DOMContentLoaded', () => {});
+chrome.runtime.onMessage.addListener( (message)=> {
+  console.log(message);
+  const mac_keypress = message.join('+');
+  let main_key = mac_keypress.split('+').pop();
+  let main_key_code = 'Key'+main_key.toUpperCase();
+  let diff = 32;
+  let char_code = main_key.charCodeAt(0);
+  let key_code = main_key.charCodeAt(0)-diff;
+  console.log(key_codes)
+  if(key_codes[main_key]) {
+    main_key = key_codes[main_key].main_key;
+    main_key_code = key_codes[main_key].main_key_code;
+    key_code = key_codes[main_key].key_code;
+  }
+  const keyevent = new KeyboardEvent('keydown', {
+    key: main_key,
+    code: main_key_code,
+    location: document,
+    ctrlKey: mac_keypress.includes('ctrl'),
+    shiftKey: mac_keypress.includes('shift'),
+    altKey: mac_keypress.includes('alt'),
+    metaKey: mac_keypress.includes('cmd'),
+    repeat: true,
+    isComposing: false,
+    charCode: char_code,
+    keyCode: key_code,
+    which: key_code,
+    bubbles: true, // Needed for google docs..
+  });
+  console.log(keyevent);
+  document.activeElement.dispatchEvent(keyevent);
+});
+

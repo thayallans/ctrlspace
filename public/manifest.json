@@ -39,7 +39,8 @@
       ],
       "run_at": "document_start",
       "js": [
-        "contentScript.js"
+        "contentScript.js",
+        "key_codes.js"
       ]
     }
   ]

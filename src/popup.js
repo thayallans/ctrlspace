@@ -73,11 +73,10 @@ document.addEventListener("keydown", function (event) {
       } 
     }
   }
-  console.log(current_elements[0]);
   if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
     event.preventDefault();
-    let element = current_elements[0]
-    element.parentElement.focus();
+    let el = current_elements[0]
+    el.parentElement.focus();
   } else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
     event.preventDefault();
     let el = document.activeElement.nextElementSibling;
@@ -87,12 +86,17 @@ document.addEventListener("keydown", function (event) {
     let el = document.activeElement.previousElementSibling;
     el.focus();
   } else if (event.keyCode === 13) {
+    let keys = [];
+    const elements = document.activeElement.getElementsByTagName('span')
+    for (i = 0; i < elements.length; i++) {
+      keys.push(elements[i].innerText.toLowerCase());
+    }
     chrome.tabs.query({currentWindow: true, active: true},function(tabArray) {
-      chrome.tabs.sendMessage(tabArray[0].id, document.activeElement.getElementsByTagName("p")[0].innerText);
+      chrome.tabs.sendMessage(tabArray[0].id, keys);
     });
     window.close();
   } else {
-    const input = document.getElementById("search").focus();
+    document.getElementById("search").focus();
   }
 });
 
