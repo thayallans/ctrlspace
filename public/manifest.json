@@ -19,6 +19,14 @@
     "default_title": "ctrlspace",
     "default_popup": "popup.html"
   },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Space",
+        "mac": "MacCtrl+Space"
+      }
+    }
+  },
   "permissions": [
     "storage"
   ],
@@ -27,7 +35,7 @@
       "matches": [
         "<all_urls>"
       ],
-      "run_at": "document_idle",
+      "run_at": "document_start",
       "js": [
         "contentScript.js"
       ]
