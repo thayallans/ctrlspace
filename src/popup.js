@@ -67,64 +67,26 @@ document.addEventListener("keydown", function (event) {
   var elements = document.getElementsByClassName('w-1/2 bg-gray-900 h-12');
   var current_elements = [];
   for (i = 0; i < elements.length; i++) {
-    a = elements[i].getElementsByTagName("p")[0];
-    if (elements[i].style.display != "none") {
-      current_elements.push(elements[i]);
+    if(elements[i].getElementsByTagName("p")[0]) {
+      if (elements[i].style.display != "none") {
+        current_elements.push(elements[i]);
+      } 
     }
   }
+  console.log(current_elements[0]);
   if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
     event.preventDefault();
-    let elements = current_elements[0].getElementsByClassName('flex')[0].getElementsByClassName('w-1/2');
-    Array.prototype.forEach.call(elements, element => {
-      element.classList.remove('bg-gray-900');
-      element.classList.add('bg-gray-700');
-    });
-    current_elements[0].getElementsByClassName('flex')[0].focus();
-    current_elements[0].getElementsByClassName('flex')[0].addEventListener("focusout", () => { 
-      let elements = current_elements[0].getElementsByClassName('flex')[0].getElementsByClassName('w-1/2');
-      console.log(elements);
-      Array.prototype.forEach.call(elements, element => {
-        element.classList.remove('bg-gray-700');
-        element.classList.add('bg-gray-900');
-      });
-      return true
-    });
+    let element = current_elements[0]
+    element.parentElement.focus();
   } else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
     event.preventDefault();
-    let elements = current_elements[current_elements.indexOf(document.activeElement.parentElement) + 1].getElementsByClassName('flex')[0].getElementsByClassName('w-1/2');
-    Array.prototype.forEach.call(elements, element => {
-      element.classList.remove('bg-gray-900');
-      element.classList.add('bg-gray-700');
-    });
-    let el = current_elements[current_elements.indexOf(document.activeElement.parentElement) + 1].getElementsByClassName('flex')[0];
+    let el = document.activeElement.nextElementSibling;
     el.focus();
-    el.addEventListener("focusout", () => { 
-      let elements = el.getElementsByClassName('w-1/2');
-      Array.prototype.forEach.call(elements, element => {
-        element.classList.remove('bg-gray-700');
-        element.classList.add('bg-gray-900');
-      });
-      return true
-    });
   } else if (event.keyCode === 38 && event.target.nodeName === 'DIV') {
     event.preventDefault();
-    let elements = current_elements[current_elements.indexOf(document.activeElement.parentElement) - 1].getElementsByClassName('flex')[0].getElementsByClassName('w-1/2');
-    Array.prototype.forEach.call(elements, element => {
-      element.classList.remove('bg-gray-900');
-      element.classList.add('bg-gray-700');
-    });
-    let el = current_elements[current_elements.indexOf(document.activeElement.parentElement) - 1].getElementsByClassName('flex')[0];
+    let el = document.activeElement.previousElementSibling;
     el.focus();
-    el.addEventListener("focusout", () => { 
-      let elements = el.getElementsByClassName('w-1/2');
-      Array.prototype.forEach.call(elements, element => {
-        element.classList.remove('bg-gray-700');
-        element.classList.add('bg-gray-900');
-      });
-      return true
-    });
   } else if (event.keyCode === 13) {
-    mixpanel.track("Navigation trigerred");
     chrome.tabs.query({currentWindow: true, active: true},function(tabArray) {
       chrome.tabs.sendMessage(tabArray[0].id, document.activeElement.getElementsByTagName("p")[0].innerText);
     });
@@ -142,6 +104,7 @@ function filter() {
   var current_elements = [];
   for (i = 0; i < elements.length; i++) {
     if(elements[i].getElementsByTagName('p')[0]) {
+      elements[i].parentElement.tabIndex = i;
       a = elements[i].getElementsByTagName('p')[0];
       txtValue = a.innerText;
     }
