@@ -10,3 +10,5 @@
 
 // For more information on Content Scripts,
 // See https://developer.chrome.com/extensions/content_scripts
+
+document.addEventListener('DOMContentLoaded', () => {});
