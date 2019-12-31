@@ -98,6 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     });
   });
+  chrome.storage.sync.get(['logged_in'], (result) => {
+    if(result.logged_in == 'false') {      
+      window.location.href = "login.html";
+    }
+    return true;
+  });
 });
 
 document.addEventListener("keydown", function (event) {
