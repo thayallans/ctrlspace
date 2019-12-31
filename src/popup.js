@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         file = 'content/airtable.json'
       } else if(result.site.includes('asana.com')) {
         file = 'content/asana.json'
-      } else if(result.site.includes('discord.com')) {
+      } else if(result.site.includes('discordapp.com')) {
         file = 'content/discord.json'
       } else if(result.site.includes('evernote.com')) {
         file = 'content/evernote.json'
