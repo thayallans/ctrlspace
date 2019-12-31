@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 280px !important;">
+
 <head>
-    <meta charset="UTF-8">
-    <title>ctrlspace</title>
-    <link rel="stylesheet" href="tailwind.min.css" />
+  <meta charset="UTF-8">
+  <title>ctrlspace</title>
+  <link rel="stylesheet" href="tailwind.min.css" />
 </head>
-<body>
-  <div class="app">
+
+<body style="width:550px; height: 280px;" class="bg-gray-900">
+  <div style="height: 280px; overflow: hidden;">
+    <div id="mainDiv" style="width: 100%; height: 100%; overflow-y: scroll;">
+      <div class="flex">
+        <form class="w-full bg-gray-900" autocomplete="off">
+          <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
+            <input style="text-align: center;" class="appearance-none bg-transparent border-none w-full text-base text-gray-100 mr-3 py-1 px-2 leading-tight focus:outline-none" id="search" type="text" placeholder="Search for a shortcut" aria-label="search" autofocus>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 
   <script src="popup.js"></script>
-
+  <script src="lib/jquery.min.js"></script>
   <!--
     This HTML file opens when you click on icon from the toolbar.
 
@@ -18,4 +29,5 @@
     To create a production bundle, use `npm run build`.
   -->
 </body>
+
 </html>
