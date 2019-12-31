@@ -10,9 +10,7 @@
     "128": "icons/icon_128.png"
   },
   "background": {
-    "scripts": [
-      "background.js"
-    ],
+    "page": "background.html",
     "persistent": false
   },
   "browser_action": {
@@ -43,5 +41,6 @@
         "key_codes.js"
       ]
     }
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://www.gstatic.com/; object-src 'self'"
 }
