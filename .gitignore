@@ -4,4 +4,6 @@ node_modules/
 
 # stuff i have no clue about
 size-plugin.json
+public/.DS_Store
+public/content/.DS_Store
 .DS_Store
