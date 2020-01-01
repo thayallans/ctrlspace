@@ -26,3 +26,6 @@ Node 12.13.0
   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
   - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
   - [TabNine](https://marketplace.visualstudio.com/items?itemName=TabNine.tabnine-vscode)
+
+##Normalizing JSON files for Mac
+- Run mac_normalize.py in terminal, entering in file path for a directory containing JSON files for windows shortcuts
