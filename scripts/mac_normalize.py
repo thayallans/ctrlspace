@@ -8,7 +8,7 @@ def modify_for_mac(json_file):
         data = json.loads(f.read())
         sections = data["sections"] #list of dicts, each its own section
         list_of_sections = [sections[i] for i in range(0, len(sections))] #a list of dictionaries, each being a section of shortcuts
-        
+        print(json_file)
         
         for section in list_of_sections:
             shortcuts = section["shortcuts"]
@@ -25,42 +25,57 @@ def modify_for_mac(json_file):
                         before_desc = re.search("/(.*) ", description[::-1])
                         after_desc = description[description.index("/"): len(description)]
 
-                        pre_desc = before_desc.group(0)[2:0:-1] #word or char before / in description
+                        pre_desc = before_desc.group(0)[len(before_desc.group(0))-1:0:-1][1:] #word or char before / in description
                         post_desc = after_desc[1:] #word or char before / in description
 
-                        before =  re.search("/(.*) ", ks[::-1]) 
+                        before = re.search("/(.*) ", ks[::-1])
+                        pre = ""
+                        if before: 
+                            pre = before.group(0)[len(before_desc.group(0))-1:0:-1]
+                        else:
+                            kl = ks.split()
+                            last_in_kl = kl[len(kl)-1]
+                            pre = last_in_kl[0:last_in_kl.index("/")]
+
                         after = ks[slash_index: len(ks)]
-                        pre = before.group(0)[2:0:-1] #word or char before / in shortcut keys
-                        post = after[1:] #word or char before / in shortcut keys
+                        post = after[1:]
                         #inserting 2 dictionaries for the split up shortcuts
                         shortcuts.insert(shortcuts.index(shortcut), {
-                                 "description": description + f"({before_desc})",
-                                 "keys": keys[0:len(keys)-1] + [before]
+                                 "description": description + f"({pre_desc})",
+                                 "keys": keys[0:len(keys)-1] + [pre]
                         })
 
                         shortcuts.insert(shortcuts.index(shortcut), {
-                                 "description": description + f"({after_desc})",
-                                 "keys": keys[:len(keys)-1] + [after]
+                                 "description": description + f"({post_desc})",
+                                 "keys": keys[:len(keys)-1] + [post]
                         })
                         
                     else:
-                         before = re.search("/(.*) ", ks[::-1])
-                         after = ks[slash_index: len(ks)]
-                         pre = before.group(0)[2:0:-1]
-                         post = after[1:]
-                           
-                         shortcuts.insert(shortcuts.index(shortcut), {
-                                 "description": description + "(decrease/down)",
+                        pre = ""
+                        before = re.search("/(.*) ", ks[::-1])
+                        if before:
+                             pre = before.group(0)[len(before.group(0))-1:0:-1]
+                        else:
+                             pre = ks[0:slash_index]
+                        after = ks[slash_index: len(ks)]
+                        post = after[1:]
+                        dec = ""
+                        inc = ""
+                        if "djust" in description:
+                            dec = " (decrease)"
+                            inc = " (increase)"
+                        shortcuts.insert(shortcuts.index(shortcut), {
+                                 "description": description + dec,
                                  "keys": keys[0:len(keys)-1] + [pre]
 
-                         })
+                        })
 
-                         shortcuts.insert(shortcuts.index(shortcut), {
-                                 "description": description + "(increase/up)",
+                        shortcuts.insert(shortcuts.index(shortcut), {
+                                 "description": description + inc,
                                  "keys": keys[0:len(keys)-1] + [post]
-                         })
+                        })
                     
-                    del(shortcuts[shortcuts.index(shortcut)]) #getting rid of original shorcut since it was replaced by 2 new ones
+                    del(shortcuts[shortcuts.index(shortcut)]) #getting rid of original shorcut since it was replaced by 2 new onesls
                 else:
                     continue
         return data
@@ -78,7 +93,7 @@ def saving_all_files():
             with open('mac_' + jsons[i], 'w') as fp:
                 json.dump(dicts[i], fp, indent=4)
         
-#saving_all_files()
+saving_all_files()
 
-modify_for_mac("/Users/aadilali/repos/ctrlspace/public/content/airtable.json")
+# heres a sample filepath -> "/Users/aadilali/repos/ctrlspace/public/content/"
 
