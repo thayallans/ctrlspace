@@ -114,9 +114,15 @@ document.addEventListener("keydown", function (event) {
   var current_elements = [];
   for (i = 0; i < elements.length; i++) {
     if(elements[i].getElementsByTagName("p")[0]) {
-      if (elements[i].style.display != "none") {
+      if (elements[i].parentElement.style.display != "none") {
         current_elements.push(elements[i]);
-      } 
+      }
+    }
+  }
+  let current_index = 0;
+  for(i=0; i < current_elements.length; i++) {
+    if(current_elements[i].parentElement == document.activeElement) {
+      current_index = i;
     }
   }
   if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
@@ -125,12 +131,10 @@ document.addEventListener("keydown", function (event) {
     el.parentElement.focus();
   } else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
     event.preventDefault();
-    let el = document.activeElement.nextElementSibling;
-    el.focus();
+    current_elements[current_index + 1].parentElement.focus();
   } else if (event.keyCode === 38 && event.target.nodeName === 'DIV') {
     event.preventDefault();
-    let el = document.activeElement.previousElementSibling;
-    el.focus();
+    current_elements[current_index - 1].parentElement.focus();
   } else if (event.keyCode === 13) {
     let keys = [];
     const elements = document.activeElement.getElementsByTagName('span')
@@ -154,31 +158,33 @@ function filter() {
   var current_elements = [];
   for (i = 0; i < elements.length; i++) {
     if(elements[i].getElementsByTagName('p')[0]) {
-      elements[i].parentElement.tabIndex = i;
+      elements[i].parentElement.tabIndex = i/2;
       a = elements[i].getElementsByTagName('p')[0];
       txtValue = a.innerText;
-    }
-    const words = txtValue.split(" ");
-    if(txtValue.toUpperCase().indexOf(filter) > -1) {
-      elements[i].style.display = "";
-      current_elements.push(elements[i]);
-    } else {
-      let total = 0;
-      words.forEach((word) => {
-        console.log(smart_search(filter.toLowerCase(), word.toLowerCase()));
-        if (smart_search(filter.toLowerCase(), word.toLowerCase())) {
-          elements[i].style.display = "";
-          if(!current_elements[elements[i]]) {
-            current_elements.push(elements[i]);
-            total++;
-          }
+      const words = txtValue.split(" ");
+      if(txtValue.toUpperCase().indexOf(filter) > -1) {
+        elements[i].parentElement.style.display = "";
+        if(!current_elements.includes(txtValue)){
+          current_elements.push(txtValue);
         }
-      });
-      if(total == 0 && filter != "") {
-        elements[i].style.display = "none";
-        current_elements.splice(i, 1);
+      } else {
+        let total = 0;
+        words.forEach((word) => {
+          if (smart_search(filter.toLowerCase(), word.toLowerCase())) {
+            elements[i].parentElement.style.display = "";
+            if(!current_elements.includes(txtValue)) {
+              current_elements.push(txtValue);
+              total++;
+            }
+          }
+        });
+        if(total == 0 && filter != "") {
+          elements[i].parentElement.style.display = "none";
+          console.log(current_elements);
+          current_elements.splice(i, 1);
+        }
+        total = 0;
       }
-      total = 0;
     }
   }
 }
