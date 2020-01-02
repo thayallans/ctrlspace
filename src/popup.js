@@ -158,12 +158,27 @@ function filter() {
       a = elements[i].getElementsByTagName('p')[0];
       txtValue = a.innerText;
     }
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        elements[i].style.display = "";
-        current_elements.push(elements[i]);
+    const words = txtValue.split(" ");
+    if(txtValue.toUpperCase().indexOf(filter) > -1) {
+      elements[i].style.display = "";
+      current_elements.push(elements[i]);
     } else {
+      let total = 0;
+      words.forEach((word) => {
+        console.log(smart_search(filter.toLowerCase(), word.toLowerCase()));
+        if (smart_search(filter.toLowerCase(), word.toLowerCase())) {
+          elements[i].style.display = "";
+          if(!current_elements[elements[i]]) {
+            current_elements.push(elements[i]);
+            total++;
+          }
+        }
+      });
+      if(total == 0 && filter != "") {
         elements[i].style.display = "none";
         current_elements.splice(i, 1);
+      }
+      total = 0;
     }
   }
 }
