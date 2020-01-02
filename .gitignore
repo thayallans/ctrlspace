@@ -6,4 +6,5 @@ node_modules/
 size-plugin.json
 public/.DS_Store
 public/content/.DS_Store
+public/icons/.DS_Store
 .DS_Store
