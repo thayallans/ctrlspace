@@ -6,37 +6,37 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(result.site);
       let file = '';
       if(result.site.includes('airtable.com')) {
-        file = 'content/airtable.json'
+        file = 'mac_content/mac_airtable.json'
       } else if(result.site.includes('asana.com')) {
-        file = 'content/asana.json'
+        file = 'mac_content/mac_asana.json'
       } else if(result.site.includes('discordapp.com')) {
-        file = 'content/discord.json'
+        file = 'mac_content/mac_discord.json'
       } else if(result.site.includes('evernote.com')) {
-        file = 'content/evernote.json'
+        file = 'mac_content/mac_evernote.json'
       } else if(result.site.includes('figma.com')) {
-        file = 'content/figma.json'
+        file = 'mac_content/mac_figma.json'
       } else if(result.site.includes('framer.com')) {
-        file = 'content/framer-x.json'
+        file = 'mac_content/mac_framer-x.json'
       } else if(result.site.includes('github.com')) {
-        file = 'content/github.json'
+        file = 'mac_content/mac_github.json'
       } else if(result.site.includes('drive.google.com')) {
-        file = 'content/google-drive.json'
+        file = 'mac_content/mac_google-drive.json'
       } else if(result.site.includes('jira.com')) {
-        file = 'content/jira.json'
+        file = 'mac_content/mac_jira.json'
       } else if(result.site.includes('monday.com')) {
-        file = 'content/monday.json'
+        file = 'mac_content/mac_monday.json'
       } else if(result.site.includes('notion.so')) {
-        file = 'content/notion.json'
+        file = 'mac_content/mac_notion.json'
       } else if(result.site.includes('proto.io')) {
-        file = 'content/proto-io.json'
+        file = 'mac_content/mac_proto-io.json'
       } else if(result.site.includes('quip.com')) {
-        file = 'content/quip.json'
+        file = 'mac_content/mac_quip.json'
       } else if(result.site.includes('slack.com')) {
-        file = 'content/slack.json'
+        file = 'mac_content/mac_slack.json'
       } else if(result.site.includes('trello.com')) {
-        file = 'content/trello.json'
+        file = 'mac_content/mac_trello.json'
       } else if(result.site.includes('youtube.com')) {
-        file = 'content/youtube.json'
+        file = 'mac_content/mac_youtube.json'
       }
       $.getJSON(file, function(json) {
         const all_sections = json.sections;
