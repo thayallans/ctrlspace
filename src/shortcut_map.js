@@ -42,8 +42,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const all_sections = json.sections;
         let all_shortcuts = [];
         const main_div = document.getElementById('mainDiv');
+        main_div.style.display = 'flex';
+        var column_div = document.createElement('div');
+        column_div.style.float = 'left';
+        column_div.style.display = 'inline-block';
+        let counter = 0;
         all_sections.forEach((section) => {
           section.shortcuts.forEach((shortcut) => {
+            counter++;
+            if (counter == 10) {
+              column_div = document.createElement('div');
+              column_div.style.float = 'left';
+              column_div.style.display = 'inline-block';
+              counter = 0;
+            }
             var outer_div = document.createElement('div');
             outer_div.classList.add('flex');
             var first_outer_div = document.createElement('div');
@@ -53,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var first_inner_div = document.createElement('div');
             first_inner_div.classList.add('px-6');
             first_inner_div.classList.add('py-4');
+            first_inner_div.style.width = '225px';
             var inner_p = document.createElement('p');
             inner_p.classList.add('text-lg');
             inner_p.classList.add('font-semibold');
@@ -64,8 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
             second_outer_div.classList.add('bg-gray-900');
             second_outer_div.classList.add('h-12');
             var second_inner_div = document.createElement('div');
-            second_inner_div.classList.add('px-6');
+            second_inner_div.classList.add('px-2');
             second_inner_div.classList.add('py-4');
+            second_inner_div.style.width = '200px';
             var second_even_inner_div = document.createElement('div');
             second_even_inner_div.style.textAlign = 'left';
     
@@ -74,13 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
               key_span.classList.add('inline-block');
               key_span.classList.add('bg-gray-200');
               key_span.classList.add('rounded-full');
-              key_span.classList.add('px-4');
+              key_span.classList.add('px-2');
               key_span.classList.add('mx-1');
               key_span.classList.add('py-1');
               key_span.classList.add('text-sm');
               key_span.classList.add('font-semibold');
               key_span.classList.add('text-gray-700');
               key_span.innerText = key;
+              key_span.style.float = 'left';
+              key_span.style.display = 'inline-block';
               second_even_inner_div.appendChild(key_span);
             });
     
@@ -90,7 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
             second_outer_div.appendChild(second_inner_div);
             outer_div.appendChild(first_outer_div);
             outer_div.appendChild(second_outer_div)
-            main_div.appendChild(outer_div);
+            column_div.appendChild(outer_div);
+            main_div.appendChild(column_div);
             all_shortcuts.push(shortcut);
           });
         });
@@ -98,102 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     });
   });
-  chrome.storage.sync.get(['logged_in'], (result) => {
-    if(result.logged_in == 'false') {      
-      window.location.href = "login.html";
-    }
-    return true;
-  });
 });
 
 document.addEventListener("keydown", function (event) {
-  var input, filter, ul, li, a, i, txtValue;
-  input = document.getElementById("search");
-  filter = input.value.toUpperCase();
-  var elements = document.getElementsByClassName('w-1/2 bg-gray-900 h-12');
-  var current_elements = [];
-  for (i = 0; i < elements.length; i++) {
-    if(elements[i].getElementsByTagName("p")[0]) {
-      if (elements[i].parentElement.style.display != "none") {
-        current_elements.push(elements[i]);
-      }
-    }
+  if(event.keyCode === 32 && event.ctrlKey && event.shiftKey) {
+    window.location.href = "popup.html"
   }
-  let current_index = 0;
-  for(i=0; i < current_elements.length; i++) {
-    if(current_elements[i].parentElement == document.activeElement) {
-      current_index = i;
-    }
-  }
-  if (event.keyCode === 32 && event.ctrlKey && event.shiftKey) {
-    window.location.href = "shortcut_map.html";
-  }
-  else if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
-    event.preventDefault();
-    let el = current_elements[0]
-    el.parentElement.focus();
-  } else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
-    event.preventDefault();
-    current_elements[current_index + 1].parentElement.focus();
-  } else if (event.keyCode === 38 && event.target.nodeName === 'DIV') {
-    event.preventDefault();
-    current_elements[current_index - 1].parentElement.focus();
-  } else if (event.keyCode === 13) {
-    let keys = [];
-    const elements = document.activeElement.getElementsByTagName('span')
-    for (i = 0; i < elements.length; i++) {
-      keys.push(elements[i].innerText.toLowerCase());
-    }
-    chrome.tabs.query({currentWindow: true, active: true},function(tabArray) {
-      chrome.tabs.sendMessage(tabArray[0].id, keys);
-    });
-    window.close();
-  } else {
-    document.getElementById("search").focus();
-  }
-});
-
-function filter() {
-  var input, filter, a, i, txtValue;
-  input = document.getElementById("search");
-  filter = input.value.toUpperCase();
-  var elements = document.getElementsByClassName('w-1/2 bg-gray-900 h-12');
-  var current_elements = [];
-  for (i = 0; i < elements.length; i++) {
-    if(elements[i].getElementsByTagName('p')[0]) {
-      elements[i].parentElement.tabIndex = i/2;
-      a = elements[i].getElementsByTagName('p')[0];
-      txtValue = a.innerText;
-      const words = txtValue.split(" ");
-      if(txtValue.toUpperCase().indexOf(filter) > -1) {
-        elements[i].parentElement.style.display = "";
-        if(!current_elements.includes(txtValue)){
-          current_elements.push(txtValue);
-        }
-      } else {
-        let total = 0;
-        words.forEach((word) => {
-          if (smart_search(filter.toLowerCase(), word.toLowerCase())) {
-            elements[i].parentElement.style.display = "";
-            if(!current_elements.includes(txtValue)) {
-              current_elements.push(txtValue);
-              total++;
-            }
-          }
-        });
-        if(total == 0 && filter != "") {
-          elements[i].parentElement.style.display = "none";
-          console.log(current_elements);
-          current_elements.splice(i, 1);
-        }
-        total = 0;
-      }
-    }
-  }
-}
-
-const input = document.getElementById("search"); 
-input.addEventListener("keyup", function (event) {
-  filter();
-  return true;
 });
