@@ -19,11 +19,9 @@ firebase.initializeApp({
 
 function on_message() {
   chrome.runtime.onMessage.addListener((msg, sender, response) => {
-    console.log(msg);
     if (msg.command == "login"){
       firebase.auth().signOut();
       firebase.auth().signInWithEmailAndPassword(msg.email, msg.password).then(() => {
-        console.log(firebase.auth().current_user);
         response({status: 'success'});
         return true;
       }).catch((error) => {
@@ -35,7 +33,6 @@ function on_message() {
         console.log(errorMessage);
       });
       chrome.storage.sync.set({'logged_in': 'true'}, function() {
-        console.log('user logged in');
       });
     } else if (msg.command == "get_current_user") {
       response({user: firebase.auth().currentUser});

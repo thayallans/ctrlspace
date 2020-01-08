@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const main_div = document.getElementById('mainDiv');
         all_sections.forEach((section) => {
           section.shortcuts.forEach((shortcut) => {
+            
             var outer_div = document.createElement('div');
             outer_div.classList.add('flex');
             var first_outer_div = document.createElement('div');
@@ -58,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
             inner_p.classList.add('font-semibold');
             inner_p.classList.add('text-gray-100');
             inner_p.style.textAlign = 'center';
+            console.log(shortcut.description)
+            console.log(shortcut.description.length)
             inner_p.innerText = shortcut.description;
             var second_outer_div = document.createElement('div');
             second_outer_div.classList.add('w-1/2');
@@ -68,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
             second_inner_div.classList.add('py-4');
             var second_even_inner_div = document.createElement('div');
             second_even_inner_div.style.textAlign = 'left';
-    
             shortcut.keys.forEach((key) => {
               var key_span = document.createElement('span');
               key_span.classList.add('inline-block');
@@ -138,7 +140,7 @@ document.addEventListener("keydown", function (event) {
       keys.push(elements[i].innerText.toLowerCase());
     }
     chrome.tabs.query({currentWindow: true, active: true},function(tabArray) {
-      chrome.tabs.sendMessage(tabArray[0].id, keys);
+      chrome.tabs.sendMessage(tabArray[0].id, keys); //gets all active windows
     });
     window.close();
   } else {

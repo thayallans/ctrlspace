@@ -4,6 +4,8 @@ import os
 import re
 
 def modify_for_mac(json_file):
+    acceptable_desc_length = 22
+    long_desc_length = 35
     with open(json_file, "r+") as f:
         data = json.loads(f.read())
         sections = data["sections"] #list of dicts, each its own section
@@ -16,10 +18,9 @@ def modify_for_mac(json_file):
                 keys = shortcut["keys"] #list of strings contraining keys to press
                 description = shortcut["description"]
                 ks = ' '.join(keys) #cast list of keys to a string
-                if keys.count("Ctrl") == 1:
+                if keys.count("Ctrl") == 1: #logic for normalizing windows shortcuts to mac
                     keys[keys.index("Ctrl")] = "Cmd"
-
-                if "/" in ks and "/" != ks[len(ks)-1]:
+                if "/" in ks and "/" != ks[len(ks)-1]: #logic for splitting up combined shortcuts
                     slash_index = ks.index("/")
                     if "/" in description:
                         before_desc = re.search("/(.*) ", description[::-1])
@@ -78,6 +79,12 @@ def modify_for_mac(json_file):
                     del(shortcuts[shortcuts.index(shortcut)]) #getting rid of original shorcut since it was replaced by 2 new onesls
                 else:
                     continue
+
+                if len(description) > acceptable_desc_length: #logic for checking if desc is too big then adding a space at the end
+                    if len(description) > long_desc_length:
+                        description += " " #super long descriptions will be marked with 2 spaces
+                    description += " "
+
         return data
         
 
