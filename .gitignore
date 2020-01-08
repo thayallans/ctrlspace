@@ -2,8 +2,13 @@
 build/
 node_modules/
 
+# Generated Folders
+mac_content/
+
 # stuff i have no clue about
 size-plugin.json
 public/.DS_Store
 public/content/.DS_Store
+public/icons/.DS_Store
+public/lib/.DS_Store
 .DS_Store

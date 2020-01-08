@@ -6,37 +6,37 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(result.site);
       let file = '';
       if(result.site.includes('airtable.com')) {
-        file = 'content/airtable.json'
+        file = 'mac_content/mac_airtable.json'
       } else if(result.site.includes('asana.com')) {
-        file = 'content/asana.json'
+        file = 'mac_content/mac_asana.json'
       } else if(result.site.includes('discordapp.com')) {
-        file = 'content/discord.json'
+        file = 'mac_content/mac_discord.json'
       } else if(result.site.includes('evernote.com')) {
-        file = 'content/evernote.json'
+        file = 'mac_content/mac_evernote.json'
       } else if(result.site.includes('figma.com')) {
-        file = 'content/figma.json'
+        file = 'mac_content/mac_figma.json'
       } else if(result.site.includes('framer.com')) {
-        file = 'content/framer-x.json'
+        file = 'mac_content/mac_framer-x.json'
       } else if(result.site.includes('github.com')) {
-        file = 'content/github.json'
+        file = 'mac_content/mac_github.json'
       } else if(result.site.includes('drive.google.com')) {
-        file = 'content/google-drive.json'
+        file = 'mac_content/mac_google-drive.json'
       } else if(result.site.includes('jira.com')) {
-        file = 'content/jira.json'
+        file = 'mac_content/mac_jira.json'
       } else if(result.site.includes('monday.com')) {
-        file = 'content/monday.json'
+        file = 'mac_content/mac_monday.json'
       } else if(result.site.includes('notion.so')) {
-        file = 'content/notion.json'
+        file = 'mac_content/mac_notion.json'
       } else if(result.site.includes('proto.io')) {
-        file = 'content/proto-io.json'
+        file = 'mac_content/mac_proto-io.json'
       } else if(result.site.includes('quip.com')) {
-        file = 'content/quip.json'
+        file = 'mac_content/mac_quip.json'
       } else if(result.site.includes('slack.com')) {
-        file = 'content/slack.json'
+        file = 'mac_content/mac_slack.json'
       } else if(result.site.includes('trello.com')) {
-        file = 'content/trello.json'
+        file = 'mac_content/mac_trello.json'
       } else if(result.site.includes('youtube.com')) {
-        file = 'content/youtube.json'
+        file = 'mac_content/mac_youtube.json'
       }
       $.getJSON(file, function(json) {
         const all_sections = json.sections;
@@ -116,9 +116,15 @@ document.addEventListener("keydown", function (event) {
   var current_elements = [];
   for (i = 0; i < elements.length; i++) {
     if(elements[i].getElementsByTagName("p")[0]) {
-      if (elements[i].style.display != "none") {
+      if (elements[i].parentElement.style.display != "none") {
         current_elements.push(elements[i]);
-      } 
+      }
+    }
+  }
+  let current_index = 0;
+  for(i=0; i < current_elements.length; i++) {
+    if(current_elements[i].parentElement == document.activeElement) {
+      current_index = i;
     }
   }
   if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
@@ -127,12 +133,10 @@ document.addEventListener("keydown", function (event) {
     el.parentElement.focus();
   } else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
     event.preventDefault();
-    let el = document.activeElement.nextElementSibling;
-    el.focus();
+    current_elements[current_index + 1].parentElement.focus();
   } else if (event.keyCode === 38 && event.target.nodeName === 'DIV') {
     event.preventDefault();
-    let el = document.activeElement.previousElementSibling;
-    el.focus();
+    current_elements[current_index - 1].parentElement.focus();
   } else if (event.keyCode === 13) {
     let keys = [];
     const elements = document.activeElement.getElementsByTagName('span')
@@ -156,16 +160,33 @@ function filter() {
   var current_elements = [];
   for (i = 0; i < elements.length; i++) {
     if(elements[i].getElementsByTagName('p')[0]) {
-      elements[i].parentElement.tabIndex = i;
+      elements[i].parentElement.tabIndex = i/2;
       a = elements[i].getElementsByTagName('p')[0];
       txtValue = a.innerText;
-    }
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        elements[i].style.display = "";
-        current_elements.push(elements[i]);
-    } else {
-        elements[i].style.display = "none";
-        current_elements.splice(i, 1);
+      const words = txtValue.split(" ");
+      if(txtValue.toUpperCase().indexOf(filter) > -1) {
+        elements[i].parentElement.style.display = "";
+        if(!current_elements.includes(txtValue)){
+          current_elements.push(txtValue);
+        }
+      } else {
+        let total = 0;
+        words.forEach((word) => {
+          if (smart_search(filter.toLowerCase(), word.toLowerCase())) {
+            elements[i].parentElement.style.display = "";
+            if(!current_elements.includes(txtValue)) {
+              current_elements.push(txtValue);
+              total++;
+            }
+          }
+        });
+        if(total == 0 && filter != "") {
+          elements[i].parentElement.style.display = "none";
+          console.log(current_elements);
+          current_elements.splice(i, 1);
+        }
+        total = 0;
+      }
     }
   }
 }
