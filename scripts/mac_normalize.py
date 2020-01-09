@@ -4,21 +4,28 @@ import os
 import re
 
 def modify_for_mac(json_file):
+    acceptable_desc_length = 22
+    long_desc_length = 35
     with open(json_file, "r+") as f:
         data = json.loads(f.read())
         sections = data["sections"] #list of dicts, each its own section
         list_of_sections = [sections[i] for i in range(0, len(sections))] #a list of dictionaries, each being a section of shortcuts
-        print(json_file)
         
         for section in list_of_sections:
             shortcuts = section["shortcuts"]
             for shortcut in shortcuts:
                 keys = shortcut["keys"] #list of strings contraining keys to press
                 description = shortcut["description"]
-                ks = ' '.join(keys) #cast list of keys to a string
+                if len(description) > acceptable_desc_length: #logic for checking if desc is too big then adding a space at the end
+                    if len(description) > long_desc_length:
+                        description += " " #super long descriptions will be marked with 2 spaces 
+                    description += " "
+                shortcut["description"] = description
+                json.dump(data, f)
+
                 if keys.count("Ctrl") == 1:
                     keys[keys.index("Ctrl")] = "Cmd"
-
+                ks = ' '.join(keys) #cast list of keys to a string
                 if "/" in ks and "/" != ks[len(ks)-1]:
                     slash_index = ks.index("/")
                     if "/" in description:
@@ -83,7 +90,7 @@ def modify_for_mac(json_file):
 
 def modify_all_files(directory_path):
     all_jsons = [files for files in os.listdir(directory_path) if files != '.DS_Store' ]
-    all_dicts = [modify_for_mac(directory_path + "/" + f) for f in all_jsons]
+    all_dicts = [modify_for_mac(directory_path + f) for f in all_jsons]
     return all_dicts, all_jsons
 
 def saving_all_files():
