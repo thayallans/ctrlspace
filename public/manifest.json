@@ -20,8 +20,8 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
-        "default": "Ctrl+Space",
-        "mac": "MacCtrl+Space"
+        "default": "Ctrl+K",
+        "mac": "MacCtrl+K"
       }
     }
   },
@@ -38,8 +38,10 @@
       "run_at": "document_start",
       "js": [
         "contentScript.js",
-        "key_codes.js"
-      ]
+        "key_codes.js",
+        "popup.js"
+      ],
+      "css" : ["lib/tailwind.min.css"]
     }
   ],
   "content_security_policy": "script-src 'self' https://www.gstatic.com/; object-src 'self'"
