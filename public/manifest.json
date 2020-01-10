@@ -39,10 +39,14 @@
       "js": [
         "contentScript.js",
         "key_codes.js",
-        "popup.js"
+        "popup.js",
+        "lib/jquery.min.js"
       ],
       "css" : ["lib/tailwind.min.css"]
     }
+  ],
+  "web_accessible_resources": [
+    "mac_content/*.json"
   ],
   "content_security_policy": "script-src 'self' https://www.gstatic.com/; object-src 'self'"
 }

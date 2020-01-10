@@ -135,7 +135,7 @@ document.addEventListener("keydown", function (event) {
     background_element.style.transition = '2.5s';
 
     var popup_element = document.createElement('div');
-    popup_element.innerHTML = '<div style="overflow: hidden;" class="shadow-2xl"><div id="mainDiv" style="width: 100%; height: 100%; overflow-y: scroll;"><div class="flex"><form class="w-full bg-gray-900" autocomplete="off"><div class="flex items-center border-b border-b-2 border-teal-500 py-2"><input style="text-align: center;" class="appearance-none bg-transparent border-none w-full text-base text-gray-100 mr-3 py-1 px-2 leading-tight focus:outline-none" id="search" type="text" placeholder="Search for a shortcut" aria-label="search" autofocus></div></form></div></div></div>';
+    popup_element.innerHTML = '<div style="overflow: hidden;" class="shadow-2xl"><div id="mainDiv" style="width: 700px; height: 500px; overflow-y: scroll;"><div class="flex"><form class="w-full bg-gray-900" autocomplete="off"><div class="flex items-center border-b border-b-2 border-teal-500 py-2"><input style="text-align: center;" class="appearance-none bg-transparent border-none w-full text-base text-gray-100 mr-3 py-1 px-2 leading-tight focus:outline-none" id="search" type="text" placeholder="Search for a shortcut" aria-label="search" autofocus></div></form></div></div></div>';
     popup_element.style.width = '700px';
     popup_element.style.height = '500px';
     popup_element.style.zIndex = '1000';
@@ -148,11 +148,98 @@ document.addEventListener("keydown", function (event) {
     popup_element.style.opacity = '99%';
     main_element.appendChild(background_element);
     main_element.appendChild(popup_element);
-
-
-    
-
     document.body.appendChild(main_element);
+    let file = '';
+    if(window.location.href.includes('airtable.com')) {
+      file = 'mac_content/mac_airtable.json'
+    } else if(window.location.href.includes('asana.com')) {
+      file = 'mac_content/mac_asana.json'
+    } else if(window.location.href.includes('discordapp.com')) {
+      file = 'mac_content/mac_discord.json'
+    } else if(window.location.href.includes('evernote.com')) {
+      file = 'mac_content/mac_evernote.json'
+    } else if(window.location.href.includes('figma.com')) {
+      file = 'mac_content/mac_figma.json'
+    } else if(window.location.href.includes('framer.com')) {
+      file = 'mac_content/mac_framer-x.json'
+    } else if(window.location.href.includes('github.com')) {
+      file = 'mac_content/mac_github.json'
+    } else if(window.location.href.includes('drive.google.com')) {
+      file = 'mac_content/mac_google-drive.json'
+    } else if(window.location.href.includes('jira.com')) {
+      file = 'mac_content/mac_jira.json'
+    } else if(window.location.href.includes('monday.com')) {
+      file = 'mac_content/mac_monday.json'
+    } else if(window.location.href.includes('notion.so')) {
+      file = 'mac_content/mac_notion.json'
+    } else if(window.location.href.includes('proto.io')) {
+      file = 'mac_content/mac_proto-io.json'
+    } else if(window.location.href.includes('quip.com')) {
+      file = 'mac_content/mac_quip.json'
+    } else if(window.location.href.includes('slack.com')) {
+      file = 'mac_content/mac_slack.json'
+    } else if(window.location.href.includes('trello.com')) {
+      file = 'mac_content/mac_trello.json'
+    } else if(window.location.href.includes('youtube.com')) {
+      file = 'mac_content/mac_youtube.json'
+    }
+    file = chrome.runtime.getURL(file);
+
+    $.getJSON(file, function(json) {
+      const all_sections = json.sections;
+      let all_shortcuts = [];
+      const main_div = document.getElementById('mainDiv');
+      all_sections.forEach((section) => {
+        section.shortcuts.forEach((shortcut) => {
+          var outer_div = document.createElement('div');
+          outer_div.classList.add('flex');
+          var first_outer_div = document.createElement('div');
+          first_outer_div.classList.add('w-1/2');
+          first_outer_div.classList.add('bg-gray-900');
+          first_outer_div.classList.add('h-12');
+          var first_inner_div = document.createElement('div');
+          first_inner_div.classList.add('px-6');
+          first_inner_div.classList.add('py-3');
+          var inner_p = document.createElement('p');
+          inner_p.classList.add('text-lg');
+          inner_p.classList.add('font-semibold');
+          inner_p.classList.add('text-gray-100');
+          inner_p.style.textAlign = 'center';
+          inner_p.innerText = shortcut.description;
+          var second_outer_div = document.createElement('div');
+          second_outer_div.classList.add('w-1/2');
+          second_outer_div.classList.add('bg-gray-900');
+          second_outer_div.classList.add('h-12');
+          var second_inner_div = document.createElement('div');
+          second_inner_div.classList.add('px-6');
+          second_inner_div.classList.add('py-3');
+          var second_even_inner_div = document.createElement('div');
+          second_even_inner_div.style.textAlign = 'left'
+          shortcut.keys.forEach((key) => {
+            var key_span = document.createElement('span');
+            key_span.classList.add('inline-block');
+            key_span.classList.add('bg-gray-200');
+            key_span.classList.add('rounded-full');
+            key_span.classList.add('px-4');
+            key_span.classList.add('mx-1');
+            key_span.classList.add('py-1');
+            key_span.classList.add('text-sm');
+            key_span.classList.add('font-semibold');
+            key_span.classList.add('text-gray-700');
+            key_span.innerText = key;
+            second_even_inner_div.appendChild(key_span);
+          });
+          first_inner_div.appendChild(inner_p);
+          first_outer_div.appendChild(first_inner_div);
+          second_inner_div.appendChild(second_even_inner_div);
+          second_outer_div.appendChild(second_inner_div);
+          outer_div.appendChild(first_outer_div);
+          outer_div.appendChild(second_outer_div)
+          main_div.appendChild(outer_div);
+          all_shortcuts.push(shortcut);
+        });
+      });
+    });
   } else if (event.keyCode === 32 && event.ctrlKey && document.getElementById('main_element')) {
     document.body.removeChild(document.getElementById('main_element'));
   }
