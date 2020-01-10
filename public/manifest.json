@@ -40,7 +40,10 @@
         "contentScript.js",
         "key_codes.js",
         "popup.js",
-        "lib/jquery.min.js"
+        "lib/jquery.min.js",
+        "smart_search.js",
+        "lib/compare-strings.js",
+        "lib/dictionary.js"
       ],
       "css" : ["lib/tailwind.min.css"]
     }

@@ -100,26 +100,26 @@
 //});
 
 document.addEventListener("keydown", function (event) {
-  //var input, filter, ul, li, a, i, txtValue;
-  //input = document.getElementById("search");
-  //if(input) {
-  //  filter = input.value.toUpperCase();
-  //  var elements = document.getElementsByClassName('w-1/2 bg-gray-900 h-12');
-  //  var current_elements = [];
-  //  for (i = 0; i < elements.length; i++) {
-  //    if(elements[i].getElementsByTagName("p")[0]) {
-  //      if (elements[i].parentElement.style.display != "none") {
-  //        current_elements.push(elements[i]);
-  //      }
-  //    }
-  //  }
-  //  let current_index = 0;
-  //  for(i=0; i < current_elements.length; i++) {
-  //    if(current_elements[i].parentElement == document.activeElement) {
-  //      current_index = i;
-  //    }
-  //  }
-  //}
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById("search");
+  if(input) {
+    filter = input.value.toUpperCase();
+    var elements = document.getElementsByClassName('w-1/2 bg-gray-900 h-12');
+    var current_elements = [];
+    for (i = 0; i < elements.length; i++) {
+      if(elements[i].getElementsByTagName("p")[0]) {
+        if (elements[i].parentElement.style.display != "none") {
+          current_elements.push(elements[i]);
+        }
+      }
+    }
+    let current_index = 0;
+    for(i=0; i < current_elements.length; i++) {
+      if(current_elements[i].parentElement == document.activeElement) {
+        current_index = i;
+      }
+    }
+  }
   if (event.keyCode === 32 && event.ctrlKey && !document.getElementById('main_element')) {
     var main_element = document.createElement('div');
     main_element.id = 'main_element';
@@ -135,7 +135,7 @@ document.addEventListener("keydown", function (event) {
     background_element.style.transition = '2.5s';
 
     var popup_element = document.createElement('div');
-    popup_element.innerHTML = '<div style="overflow: hidden;" class="shadow-2xl"><div id="mainDiv" style="width: 700px; height: 500px; overflow-y: scroll;"><div class="flex"><form class="w-full bg-gray-900" autocomplete="off"><div class="flex items-center border-b border-b-2 border-teal-500 py-2"><input style="text-align: center;" class="appearance-none bg-transparent border-none w-full text-base text-gray-100 mr-3 py-1 px-2 leading-tight focus:outline-none" id="search" type="text" placeholder="Search for a shortcut" aria-label="search" autofocus></div></form></div></div></div>';
+    popup_element.innerHTML = '<div style="overflow: hidden;" class="shadow-2xl bg-gray-900"><div id="mainDiv" style="width: 700px; height: 500px; overflow-y: scroll;"><div class="flex"><form class="w-full bg-gray-900" autocomplete="off"><div class="flex items-center border-b border-b-2 border-teal-500 py-2"><input style="text-align: center;" class="appearance-none bg-transparent border-none w-full text-base text-gray-100 mr-3 py-1 px-2 leading-tight focus:outline-none" id="search" type="text" placeholder="Search for a shortcut" aria-label="search" autofocus></div></form></div></div></div>';
     popup_element.style.width = '700px';
     popup_element.style.height = '500px';
     popup_element.style.zIndex = '1000';
@@ -240,14 +240,19 @@ document.addEventListener("keydown", function (event) {
         });
       });
     });
+    const input = document.getElementById("search"); 
+    input.addEventListener("keyup", function (event) {
+      filter_words();
+      return true;
+    });
+
   } else if (event.keyCode === 32 && event.ctrlKey && document.getElementById('main_element')) {
     document.body.removeChild(document.getElementById('main_element'));
-  }
-  //else if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
-  //  event.preventDefault();
-  //  let el = current_elements[0]
-  //  el.parentElement.focus();
-  //} else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
+  } else if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
+    event.preventDefault();
+    let el = current_elements[0]
+    el.parentElement.focus();
+  } //else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
   //  event.preventDefault();
   //  current_elements[current_index + 1].parentElement.focus();
   //} else if (event.keyCode === 38 && event.target.nodeName === 'DIV') {
@@ -268,7 +273,7 @@ document.addEventListener("keydown", function (event) {
   //}
 });
 
-function filter() {
+function filter_words() {
   var input, filter, a, i, txtValue;
   input = document.getElementById("search");
   filter = input.value.toUpperCase();
@@ -306,9 +311,3 @@ function filter() {
     }
   }
 }
-
-//const input = document.getElementById("search"); 
-//input.addEventListener("keyup", function (event) {
-//  filter();
-//  return true;
-//});
