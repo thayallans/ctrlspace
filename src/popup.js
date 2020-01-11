@@ -1,6 +1,14 @@
 'use strict';
 
-//document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+  var link = $("<link />",{
+    rel: "stylesheet",
+    type: "text/css",
+    href: "https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+  })
+  $('head').append(link);
+
+});
 //  let file = '';
 //  if(result.site.includes('airtable.com')) {
 //    file = 'mac_content/mac_airtable.json'
@@ -100,11 +108,12 @@
 //});
 
 document.addEventListener("keydown", function (event) {
-  var input, filter, ul, li, a, i, txtValue;
+  let input, filter, ul, li, a, i, txtValue;
   input = document.getElementById("search");
   if(input != undefined) {
+    console.log(document.activeElement);
     filter = input.value.toUpperCase();
-    var elements = document.getElementsByClassName('w-1/2 bg-gray-900 h-12');
+    var elements = document.getElementsByClassName('w-1/2 h-12');
     var current_elements = [];
     for (i = 0; i < elements.length; i++) {
       if(elements[i].getElementsByTagName("p")[0]) {
@@ -113,12 +122,15 @@ document.addEventListener("keydown", function (event) {
         }
       }
     }
+    console.log(current_elements);
     var current_index = 0;
-    for(i=0; i < current_elements.length; i++) {
-      if(current_elements[i].parentElement == document.activeElement) {
-        current_index = i;
+    for(let j=0; j< current_elements.length; j++) {
+      if(current_elements[j].parentElement == document.activeElement) {
+        current_index = j;
+        console.log(current_index);
       }
     }
+
   }
   if (event.keyCode === 32 && event.ctrlKey && !document.getElementById('main_element')) {
     var main_element = document.createElement('div');
@@ -245,22 +257,48 @@ document.addEventListener("keydown", function (event) {
       filter_words();
       return true;
     });
-
+    input.focus();
   } else if (event.keyCode === 32 && event.ctrlKey && document.getElementById('main_element')) {
     document.body.removeChild(document.getElementById('main_element'));
   } else if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
     event.preventDefault();
     let el = current_elements[0]
     el.parentElement.focus();
+    let elements = document.activeElement.getElementsByClassName('bg-gray-900');
+    let length = elements.length
+    for(let r = 0; r < length; r++) {
+      elements[0].classList.add('bg-gray-600');
+      elements[0].classList.remove('bg-gray-900');
+    }
   } else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
     event.preventDefault();
     if((current_index + 1) < current_elements.length) {
-      current_elements[current_index + 1].parentElement.focus();
+      let el = current_elements[current_index+1];
+      el.parentElement.focus();
+      let elements = document.activeElement.getElementsByClassName('bg-gray-900');
+      let length = elements.length;
+      let prev_elements = document.activeElement.previousSibling.getElementsByClassName('bg-gray-600');
+      console.log(prev_elements);
+      for(let r = 0; r < length; r++) {
+        elements[0].classList.add('bg-gray-600');
+        elements[0].classList.remove('bg-gray-900');
+        prev_elements[0].classList.add('bg-gray-900');
+        prev_elements[0].classList.remove('bg-gray-600');
+      }
     }
   } else if (event.keyCode === 38 && event.target.nodeName === 'DIV') {
     event.preventDefault();
-    if((current_index - 1) >= 0) {
-      current_elements[current_index - 1].parentElement.focus();
+    if(current_index - 1 >= 0) {
+      current_elements[current_index-1].parentElement.focus();
+      let elements = document.activeElement.getElementsByClassName('bg-gray-900');
+      let length = elements.length;
+      let prev_elements = document.activeElement.nextSibling.getElementsByClassName('bg-gray-600');
+      for(let r = 0; r < length; r++) {
+        elements[0].classList.add('bg-gray-600');
+        elements[0].classList.remove('bg-gray-900');
+        prev_elements[0].classList.add('bg-gray-900');
+        prev_elements[0].classList.remove('bg-gray-600');
+      }
     }
   } else if (event.keyCode === 13) {
     event.preventDefault();
@@ -270,6 +308,7 @@ document.addEventListener("keydown", function (event) {
       keys.push(elements[i].innerText.toLowerCase());
     }
     keyboard_trigger(keys);
+    document.body.removeChild(document.getElementById('main_element'));
   }// else {
   //  document.getElementById("search").focus();
   //}
@@ -305,7 +344,6 @@ function filter_words() {
         });
         if(total == 0 && filter != "") {
           elements[i].parentElement.style.display = "none";
-          console.log(current_elements);
           current_elements.splice(i, 1);
         }
         total = 0;
@@ -331,10 +369,10 @@ function keyboard_trigger(keys) {
     key: main_key,
     code: main_key_code,
     location: document,
-    ctrlKey: mac_keypress.includes('Ctrl'),
-    shiftKey: mac_keypress.includes('Shift'),
-    altKey: mac_keypress.includes('Alt'),
-    metaKey: mac_keypress.includes('Cmd'),
+    ctrlKey: mac_keypress.includes('ctrl'),
+    shiftKey: mac_keypress.includes('shift'),
+    altKey: mac_keypress.includes('alt'),
+    metaKey: mac_keypress.includes('cmd'),
     repeat: true,
     isComposing: false,
     charCode: char_code,
@@ -343,5 +381,5 @@ function keyboard_trigger(keys) {
     bubbles: true, // Needed for google docs..
   });
   console.log(keyevent);
-  document.dispatchEvent(keyevent);
+  document.body.dispatchEvent(keyevent);
 }
