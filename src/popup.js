@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
       rel: "stylesheet",
       type: "text/css",
       href: "https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
-    })
+    });
     $('head').append(link);
   }
 });
