@@ -312,8 +312,6 @@ document.addEventListener("keydown", function (event) {
     }
     keyboard_trigger(keys);
     document.body.removeChild(document.getElementById('main_element'));
-  } else if({
-  //  document.getElementById("search").focus();
   }
 });
 
