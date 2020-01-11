@@ -48,7 +48,7 @@ document.addEventListener("keydown", function (event) {
     background_element.style.transition = '2.5s';
 
     var popup_element = document.createElement('div');
-    popup_element.innerHTML = '<div style="overflow: hidden;" class="shadow-2xl bg-gray-900"><div id="mainDiv" style="width: 700px; height: 500px; overflow-y: scroll;"><div class="flex"><form class="w-full bg-gray-900" autocomplete="off"><div class="flex items-center border-b border-b-2 border-teal-500 py-2"><input style="text-align: center;" class="appearance-none bg-transparent border-none w-full text-base text-gray-100 mr-3 py-1 px-2 leading-tight focus:outline-none" id="search" type="text" placeholder="Search for a shortcut" aria-label="search" autofocus></div></form></div></div></div>';
+    popup_element.innerHTML = '<div style="overflow: hidden;" class="shadow-2xl bg-gray-900"><div id="mainDiv" style="width: 700px; height: 500px; overflow-y: scroll;"><div class="flex"><form class="w-full bg-gray-800" autocomplete="off"><div class="flex items-center border-b-2 border-teal-500 py-3"><input style="text-align: center;" class="appearance-none bg-transparent border-none w-full text-base text-gray-100 mr-3 py-1 px-2 leading-tight focus:outline-none" id="search" type="text" placeholder="Search for a shortcut" aria-label="search" autofocus></div></form></div></div></div>';
     popup_element.style.width = '700px';
     popup_element.style.height = '500px';
     popup_element.style.zIndex = '1000';
@@ -222,7 +222,7 @@ function filter_words() {
   var input, filter, a, i, txtValue;
   input = document.getElementById("search");
   if(input != undefined) {
-    filter = input.value ? input.value.toUpperCase() : null;
+    filter = input.value ? input.value.toUpperCase() : "";
     var elements = document.getElementsByClassName('w-1/2 bg-gray-900 h-12');
     var current_elements = [];
     for (i = 0; i < elements.length; i++) {
