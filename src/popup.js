@@ -34,34 +34,6 @@ document.addEventListener("keydown", function (event) {
 
   }
   if (event.keyCode === 32 && event.ctrlKey && !document.getElementById('main_element')) {
-    var main_element = document.createElement('div');
-    main_element.id = 'main_element';
-    var background_element = document.createElement('div');
-    background_element.style.zIndex = '1000';
-    background_element.style.backgroundColor = '#000000';
-    background_element.style.position = 'fixed';
-    background_element.style.top = '0px';
-    background_element.style.left = '0px';
-    background_element.style.width = '100%';
-    background_element.style.height = '100%';
-    background_element.style.opacity = '75%';
-    background_element.style.transition = '2.5s';
-
-    var popup_element = document.createElement('div');
-    popup_element.innerHTML = '<div style="overflow: hidden;" class="shadow-2xl bg-gray-900"><div id="mainDiv" style="width: 700px; height: 500px; overflow-y: scroll;"><div class="flex"><form class="w-full bg-gray-800" autocomplete="off"><div class="flex items-center border-b-2 border-teal-500 py-3"><input style="text-align: center;" class="appearance-none bg-transparent border-none w-full text-base text-gray-100 mr-3 py-1 px-2 leading-tight focus:outline-none" id="search" type="text" placeholder="Search for a shortcut" aria-label="search" autofocus></div></form></div></div></div>';
-    popup_element.style.width = '700px';
-    popup_element.style.height = '500px';
-    popup_element.style.zIndex = '1000';
-    popup_element.style.position = 'absolute';
-    popup_element.style.top = '0px';
-    popup_element.style.bottom = '0px';
-    popup_element.style.left = '0px';
-    popup_element.style.right = '0px';
-    popup_element.style.margin = 'auto';
-    popup_element.style.opacity = '99%';
-    main_element.appendChild(background_element);
-    main_element.appendChild(popup_element);
-    document.body.appendChild(main_element);
     let file = '';
     if(window.location.href.includes('airtable.com')) {
       file = 'mac_content/mac_airtable.json'
@@ -96,70 +68,100 @@ document.addEventListener("keydown", function (event) {
     } else if(window.location.href.includes('youtube.com')) {
       file = 'mac_content/mac_youtube.json'
     }
-    file = chrome.runtime.getURL(file);
-
-    $.getJSON(file, function(json) {
-      const all_sections = json.sections;
-      let all_shortcuts = [];
-      const main_div = document.getElementById('mainDiv');
-      all_sections.forEach((section) => {
-        section.shortcuts.forEach((shortcut) => {
-          var outer_div = document.createElement('div');
-          outer_div.classList.add('flex');
-          var first_outer_div = document.createElement('div');
-          first_outer_div.classList.add('w-1/2');
-          first_outer_div.classList.add('bg-gray-900');
-          first_outer_div.classList.add('h-12');
-          var first_inner_div = document.createElement('div');
-          first_inner_div.classList.add('px-6');
-          first_inner_div.classList.add('py-3');
-          var inner_p = document.createElement('p');
-          inner_p.classList.add('text-lg');
-          inner_p.classList.add('font-semibold');
-          inner_p.classList.add('text-gray-100');
-          inner_p.style.textAlign = 'center';
-          inner_p.innerText = shortcut.description;
-          var second_outer_div = document.createElement('div');
-          second_outer_div.classList.add('w-1/2');
-          second_outer_div.classList.add('bg-gray-900');
-          second_outer_div.classList.add('h-12');
-          var second_inner_div = document.createElement('div');
-          second_inner_div.classList.add('px-6');
-          second_inner_div.classList.add('py-3');
-          var second_even_inner_div = document.createElement('div');
-          second_even_inner_div.style.textAlign = 'left'
-          shortcut.keys.forEach((key) => {
-            var key_span = document.createElement('span');
-            key_span.classList.add('inline-block');
-            key_span.classList.add('bg-gray-200');
-            key_span.classList.add('rounded-full');
-            key_span.classList.add('px-3');
-            key_span.classList.add('mx-1');
-            key_span.classList.add('py-1');
-            key_span.classList.add('text-sm');
-            key_span.classList.add('font-semibold');
-            key_span.classList.add('text-gray-700');
-            key_span.innerText = key;
-            second_even_inner_div.appendChild(key_span);
+    if(file != '') {
+      var main_element = document.createElement('div');
+      main_element.id = 'main_element';
+      var background_element = document.createElement('div');
+      background_element.style.zIndex = '1000';
+      background_element.style.backgroundColor = '#000000';
+      background_element.style.position = 'fixed';
+      background_element.style.top = '0px';
+      background_element.style.left = '0px';
+      background_element.style.width = '100%';
+      background_element.style.height = '100%';
+      background_element.style.opacity = '75%';
+      background_element.style.transition = '2.5s';
+  
+      var popup_element = document.createElement('div');
+      popup_element.innerHTML = '<div style="overflow: hidden;" class="shadow-2xl bg-gray-900"><div id="mainDiv" style="width: 700px; height: 500px; overflow-y: scroll;"><div class="flex"><form class="w-full bg-gray-800" autocomplete="off"><div class="flex items-center border-b-2 border-teal-500 py-3"><input style="text-align: center;" class="appearance-none bg-transparent border-none w-full text-base text-gray-100 mr-3 py-1 px-2 leading-tight focus:outline-none" id="search" type="text" placeholder="Search for a shortcut" aria-label="search" autofocus></div></form></div></div></div>';
+      popup_element.style.width = '700px';
+      popup_element.style.height = '500px';
+      popup_element.style.zIndex = '1000';
+      popup_element.style.position = 'absolute';
+      popup_element.style.top = '0px';
+      popup_element.style.bottom = '0px';
+      popup_element.style.left = '0px';
+      popup_element.style.right = '0px';
+      popup_element.style.margin = 'auto';
+      popup_element.style.opacity = '99%';
+      main_element.appendChild(background_element);
+      main_element.appendChild(popup_element);
+      document.body.appendChild(main_element);
+      
+      file = chrome.runtime.getURL(file);
+      $.getJSON(file, function(json) {
+        const all_sections = json.sections;
+        let all_shortcuts = [];
+        const main_div = document.getElementById('mainDiv');
+        all_sections.forEach((section) => {
+          section.shortcuts.forEach((shortcut) => {
+            var outer_div = document.createElement('div');
+            outer_div.classList.add('flex');
+            var first_outer_div = document.createElement('div');
+            first_outer_div.classList.add('w-1/2');
+            first_outer_div.classList.add('bg-gray-900');
+            first_outer_div.classList.add('h-12');
+            var first_inner_div = document.createElement('div');
+            first_inner_div.classList.add('px-6');
+            first_inner_div.classList.add('py-3');
+            var inner_p = document.createElement('p');
+            inner_p.classList.add('text-lg');
+            inner_p.classList.add('font-semibold');
+            inner_p.classList.add('text-gray-100');
+            inner_p.style.textAlign = 'center';
+            inner_p.innerText = shortcut.description;
+            var second_outer_div = document.createElement('div');
+            second_outer_div.classList.add('w-1/2');
+            second_outer_div.classList.add('bg-gray-900');
+            second_outer_div.classList.add('h-12');
+            var second_inner_div = document.createElement('div');
+            second_inner_div.classList.add('px-6');
+            second_inner_div.classList.add('py-3');
+            var second_even_inner_div = document.createElement('div');
+            second_even_inner_div.style.textAlign = 'left'
+            shortcut.keys.forEach((key) => {
+              var key_span = document.createElement('span');
+              key_span.classList.add('inline-block');
+              key_span.classList.add('bg-gray-200');
+              key_span.classList.add('rounded-full');
+              key_span.classList.add('px-3');
+              key_span.classList.add('mx-1');
+              key_span.classList.add('py-1');
+              key_span.classList.add('text-sm');
+              key_span.classList.add('font-semibold');
+              key_span.classList.add('text-gray-700');
+              key_span.innerText = key;
+              second_even_inner_div.appendChild(key_span);
+            });
+            first_inner_div.appendChild(inner_p);
+            first_outer_div.appendChild(first_inner_div);
+            second_inner_div.appendChild(second_even_inner_div);
+            second_outer_div.appendChild(second_inner_div);
+            outer_div.appendChild(first_outer_div);
+            outer_div.appendChild(second_outer_div)
+            main_div.appendChild(outer_div);
+            outer_div.style.outline = 'none';
+            all_shortcuts.push(shortcut);
           });
-          first_inner_div.appendChild(inner_p);
-          first_outer_div.appendChild(first_inner_div);
-          second_inner_div.appendChild(second_even_inner_div);
-          second_outer_div.appendChild(second_inner_div);
-          outer_div.appendChild(first_outer_div);
-          outer_div.appendChild(second_outer_div)
-          main_div.appendChild(outer_div);
-          outer_div.style.outline = 'none';
-          all_shortcuts.push(shortcut);
         });
       });
-    });
-    const input = document.getElementById("search"); 
-    input.addEventListener("keyup", function (event) {
-      filter_words();
-      return true;
-    });
-    input.focus();
+      const input = document.getElementById("search"); 
+      input.addEventListener("keyup", function (event) {
+        filter_words();
+        return true;
+      });
+      input.focus();
+    }
   } else if (event.keyCode === 32 && event.ctrlKey && document.getElementById('main_element')) {
     document.body.removeChild(document.getElementById('main_element'));
   } else if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
