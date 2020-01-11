@@ -102,7 +102,7 @@
 document.addEventListener("keydown", function (event) {
   var input, filter, ul, li, a, i, txtValue;
   input = document.getElementById("search");
-  if(input) {
+  if(input != undefined) {
     filter = input.value.toUpperCase();
     var elements = document.getElementsByClassName('w-1/2 bg-gray-900 h-12');
     var current_elements = [];
@@ -113,7 +113,7 @@ document.addEventListener("keydown", function (event) {
         }
       }
     }
-    let current_index = 0;
+    var current_index = 0;
     for(i=0; i < current_elements.length; i++) {
       if(current_elements[i].parentElement == document.activeElement) {
         current_index = i;
@@ -220,7 +220,7 @@ document.addEventListener("keydown", function (event) {
             key_span.classList.add('inline-block');
             key_span.classList.add('bg-gray-200');
             key_span.classList.add('rounded-full');
-            key_span.classList.add('px-4');
+            key_span.classList.add('px-3');
             key_span.classList.add('mx-1');
             key_span.classList.add('py-1');
             key_span.classList.add('text-sm');
@@ -252,23 +252,25 @@ document.addEventListener("keydown", function (event) {
     event.preventDefault();
     let el = current_elements[0]
     el.parentElement.focus();
-  } //else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
-  //  event.preventDefault();
-  //  current_elements[current_index + 1].parentElement.focus();
-  //} else if (event.keyCode === 38 && event.target.nodeName === 'DIV') {
-  //  event.preventDefault();
-  //  current_elements[current_index - 1].parentElement.focus();
-  //} else if (event.keyCode === 13) {
-  //  let keys = [];
-  //  const elements = document.activeElement.getElementsByTagName('span')
-  //  for (i = 0; i < elements.length; i++) {
-  //    keys.push(elements[i].innerText.toLowerCase());
-  //  }
-  //  chrome.tabs.query({currentWindow: true, active: true},function(tabArray) {
-  //    chrome.tabs.sendMessage(tabArray[0].id, keys);
-  //  });
-  //  window.close();
-  //} else {
+  } else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
+    event.preventDefault();
+    if((current_index + 1) < current_elements.length) {
+      current_elements[current_index + 1].parentElement.focus();
+    }
+  } else if (event.keyCode === 38 && event.target.nodeName === 'DIV') {
+    event.preventDefault();
+    if((current_index - 1) >= 0) {
+      current_elements[current_index - 1].parentElement.focus();
+    }
+  } else if (event.keyCode === 13) {
+    event.preventDefault();
+    let keys = [];
+    const elements = document.activeElement.getElementsByTagName('span')
+    for (i = 0; i < elements.length; i++) {
+      keys.push(elements[i].innerText.toLowerCase());
+    }
+    keyboard_trigger(keys);
+  }// else {
   //  document.getElementById("search").focus();
   //}
 });
@@ -310,4 +312,36 @@ function filter_words() {
       }
     }
   }
+}
+
+
+function keyboard_trigger(keys) {
+  const mac_keypress = keys.join('+');
+  let main_key = mac_keypress.split('+').pop();
+  let main_key_code = 'Key'+main_key.toUpperCase();
+  let diff = 32;
+  let char_code = main_key.charCodeAt(0);
+  let key_code = main_key.charCodeAt(0)-diff;
+  if(key_codes[main_key]) {
+    main_key = key_codes[main_key].main_key;
+    main_key_code = key_codes[main_key].main_key_code;
+    key_code = key_codes[main_key].key_code;
+  }
+  const keyevent = new KeyboardEvent('keydown', {
+    key: main_key,
+    code: main_key_code,
+    location: document,
+    ctrlKey: mac_keypress.includes('Ctrl'),
+    shiftKey: mac_keypress.includes('Shift'),
+    altKey: mac_keypress.includes('Alt'),
+    metaKey: mac_keypress.includes('Cmd'),
+    repeat: true,
+    isComposing: false,
+    charCode: char_code,
+    keyCode: key_code,
+    which: key_code,
+    bubbles: true, // Needed for google docs..
+  });
+  console.log(keyevent);
+  document.dispatchEvent(keyevent);
 }

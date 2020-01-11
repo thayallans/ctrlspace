@@ -37,7 +37,6 @@
       ],
       "run_at": "document_start",
       "js": [
-        "contentScript.js",
         "key_codes.js",
         "popup.js",
         "lib/jquery.min.js",
