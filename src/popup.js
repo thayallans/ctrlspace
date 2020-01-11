@@ -1,13 +1,14 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-  var link = $("<link />",{
-    rel: "stylesheet",
-    type: "text/css",
-    href: "https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
-  })
-  $('head').append(link);
-
+  if(window.location.href.includes('figma.com')) {
+    var link = $("<link />",{
+      rel: "stylesheet",
+      type: "text/css",
+      href: "https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+    })
+    $('head').append(link);
+  }
 });
 //  let file = '';
 //  if(result.site.includes('airtable.com')) {
@@ -111,7 +112,6 @@ document.addEventListener("keydown", function (event) {
   let input, filter, ul, li, a, i, txtValue;
   input = document.getElementById("search");
   if(input != undefined) {
-    console.log(document.activeElement);
     filter = input.value.toUpperCase();
     var elements = document.getElementsByClassName('w-1/2 h-12');
     var current_elements = [];
@@ -122,12 +122,10 @@ document.addEventListener("keydown", function (event) {
         }
       }
     }
-    console.log(current_elements);
     var current_index = 0;
     for(let j=0; j< current_elements.length; j++) {
       if(current_elements[j].parentElement == document.activeElement) {
         current_index = j;
-        console.log(current_index);
       }
     }
 
@@ -248,6 +246,7 @@ document.addEventListener("keydown", function (event) {
           outer_div.appendChild(first_outer_div);
           outer_div.appendChild(second_outer_div)
           main_div.appendChild(outer_div);
+          outer_div.style.outline = 'none';
           all_shortcuts.push(shortcut);
         });
       });
@@ -262,6 +261,7 @@ document.addEventListener("keydown", function (event) {
     document.body.removeChild(document.getElementById('main_element'));
   } else if(event.keyCode === 40 && event.target.nodeName === 'INPUT') {
     event.preventDefault();
+    event.stopImmediatePropagation();
     let el = current_elements[0]
     el.parentElement.focus();
     let elements = document.activeElement.getElementsByClassName('bg-gray-900');
@@ -272,33 +272,36 @@ document.addEventListener("keydown", function (event) {
     }
   } else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
     event.preventDefault();
+    event.stopImmediatePropagation();
     if((current_index + 1) < current_elements.length) {
       let el = current_elements[current_index+1];
       el.parentElement.focus();
-      let elements = document.activeElement.getElementsByClassName('bg-gray-900');
-      let length = elements.length;
-      let prev_elements = document.activeElement.previousSibling.getElementsByClassName('bg-gray-600');
-      console.log(prev_elements);
-      for(let r = 0; r < length; r++) {
-        elements[0].classList.add('bg-gray-600');
-        elements[0].classList.remove('bg-gray-900');
-        prev_elements[0].classList.add('bg-gray-900');
-        prev_elements[0].classList.remove('bg-gray-600');
-      }
+      const elements = document.activeElement.getElementsByClassName('bg-gray-900');
+      const prev_elements = document.activeElement.parentElement.getElementsByClassName('bg-gray-600');
+      prev_elements[0].classList.add('bg-gray-900');
+      prev_elements[1].classList.add('bg-gray-900');
+      prev_elements[0].classList.remove('bg-gray-600');
+      prev_elements[0].classList.remove('bg-gray-600');
+      elements[0].classList.add('bg-gray-600');
+      elements[1].classList.add('bg-gray-600');
+      elements[0].classList.remove('bg-gray-900');
+      elements[0].classList.remove('bg-gray-900');
     }
   } else if (event.keyCode === 38 && event.target.nodeName === 'DIV') {
     event.preventDefault();
+    event.stopImmediatePropagation();
     if(current_index - 1 >= 0) {
       current_elements[current_index-1].parentElement.focus();
-      let elements = document.activeElement.getElementsByClassName('bg-gray-900');
-      let length = elements.length;
-      let prev_elements = document.activeElement.nextSibling.getElementsByClassName('bg-gray-600');
-      for(let r = 0; r < length; r++) {
-        elements[0].classList.add('bg-gray-600');
-        elements[0].classList.remove('bg-gray-900');
-        prev_elements[0].classList.add('bg-gray-900');
-        prev_elements[0].classList.remove('bg-gray-600');
-      }
+      const elements = document.activeElement.getElementsByClassName('bg-gray-900');
+      const prev_elements = document.activeElement.parentElement.getElementsByClassName('bg-gray-600');
+      prev_elements[0].classList.add('bg-gray-900');
+      prev_elements[1].classList.add('bg-gray-900');
+      prev_elements[0].classList.remove('bg-gray-600');
+      prev_elements[0].classList.remove('bg-gray-600');
+      elements[0].classList.add('bg-gray-600');
+      elements[1].classList.add('bg-gray-600');
+      elements[0].classList.remove('bg-gray-900');
+      elements[0].classList.remove('bg-gray-900');
     }
   } else if (event.keyCode === 13) {
     event.preventDefault();
@@ -309,9 +312,9 @@ document.addEventListener("keydown", function (event) {
     }
     keyboard_trigger(keys);
     document.body.removeChild(document.getElementById('main_element'));
-  }// else {
+  } else if({
   //  document.getElementById("search").focus();
-  //}
+  }
 });
 
 function filter_words() {
