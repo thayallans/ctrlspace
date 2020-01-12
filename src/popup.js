@@ -386,8 +386,10 @@ document.addEventListener('keydown', function(event) {
         const val = els[x*2+1].getElementsByTagName('span');
         for (let s = 0; s < val.length; s++) {
           keys.push(val[s].innerText.toLowerCase());
+          if(keys[s].charCodeAt(0) >= 97 && keys[s].charCodeAt(0) <= 122) {
+            keyboard_trigger(keys);
+          }
         }
-        keyboard_trigger(keys);
         keys = [];
       }
       document.body.removeChild(document.getElementById('main_element'));
@@ -395,8 +397,9 @@ document.addEventListener('keydown', function(event) {
       const elements = document.activeElement.getElementsByTagName('span');
       for (i = 0; i < elements.length; i++) {
         keys.push(elements[i].innerText.toLowerCase());
+        console.log(keys[i].charCodeAt(0));
       }
-      keyboard_trigger(keys);
+      //keyboard_trigger(keys);
       document.body.removeChild(document.getElementById('main_element'));
     }
   }
