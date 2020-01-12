@@ -136,7 +136,20 @@ document.addEventListener('keydown', function(event) {
             inner_p.classList.add('font-semibold');
             inner_p.classList.add('text-gray-100');
             inner_p.style.textAlign = 'center';
-            inner_p.innerText = shortcut.description;
+
+            //note: json files were modded to have spaces at the end of descriptions depending how long it was
+            var desc = shortcut.description;
+            if (desc[desc.length-1] === " ") { //if the last char of the description is a blank space, make font smaller
+              inner_p.style.fontSize = "12px";
+              desc = desc.slice(0,desc.length - 1);
+              if (desc[desc.length-1] === " ") {//if there was another space at the end, make it even smaller
+                inner_p.style.fontSize = "10px";
+                desc = desc.slice(0,desc.length - 1); //delete empty space
+              }
+            }
+
+            inner_p.innerText = desc;
+
             var second_outer_div = document.createElement('div');
             second_outer_div.classList.add('w-1/2');
             second_outer_div.classList.add('bg-gray-900');
@@ -240,7 +253,20 @@ document.addEventListener('keydown', function(event) {
             inner_p.classList.add('font-semibold');
             inner_p.classList.add('text-gray-100');
             inner_p.style.textAlign = 'center';
-            inner_p.innerText = shortcut.description;
+            
+            //note: json files were modded to have spaces at the end of descriptions depending how long it was
+            var desc = shortcut.description;
+            if (desc[desc.length-1] === " ") { //if the last char of the description is a blank space, make font smaller
+              inner_p.style.fontSize = "12px";
+              desc = desc.slice(0,desc.length - 1);
+              if (desc[desc.length-1] === " ") {//if there was another space at the end, make it even smaller
+                inner_p.style.fontSize = "10px";
+                desc = desc.slice(0,desc.length - 1); //delete empty space
+              }
+            }
+
+            inner_p.innerText = desc;
+            
             var second_outer_div = document.createElement('div');
             second_outer_div.classList.add('w-1/2');
             second_outer_div.classList.add('bg-gray-900');
