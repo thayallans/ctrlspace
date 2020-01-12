@@ -66,7 +66,13 @@ document.addEventListener('keydown', function(event) {
   } else if (window.location.href.includes('youtube.com')) {
     file = 'mac_content/mac_youtube.json';
   }
-  if (event.keyCode === 32 && event.ctrlKey && event.shiftKey && !document.getElementById('shortcut_map_element')) {
+  if (event.keyCode === 88 && document.getElementById('main_element')) {
+    const selected_elements = document.getElementsByClassName('bg-gray-700');
+    selected_elements[0].classList.add('bg-gray-500');
+    selected_elements[1].classList.add('bg-gray-500'); 
+    selected_elements[0].classList.remove('bg-gray-700');
+    selected_elements[0].classList.remove('bg-gray-700');
+  } else if (event.keyCode === 32 && event.ctrlKey && event.shiftKey && !document.getElementById('shortcut_map_element')) {
     if (file != '') {
       if(document.getElementById('main_element')){
         document.body.removeChild(document.getElementById('main_element'));
@@ -323,7 +329,7 @@ document.addEventListener('keydown', function(event) {
     let elements = document.activeElement.getElementsByClassName('bg-gray-900');
     let length = elements.length;
     for (let r = 0; r < length; r++) {
-      elements[0].classList.add('bg-gray-600');
+      elements[0].classList.add('bg-gray-700');
       elements[0].classList.remove('bg-gray-900');
     }
   } else if (event.keyCode === 40 && event.target.nodeName === 'DIV') {
@@ -336,14 +342,16 @@ document.addEventListener('keydown', function(event) {
         'bg-gray-900',
       );
       const prev_elements = document.activeElement.parentElement.getElementsByClassName(
-        'bg-gray-600',
+        'bg-gray-700',
       );
-      prev_elements[0].classList.add('bg-gray-900');
-      prev_elements[1].classList.add('bg-gray-900');
-      prev_elements[0].classList.remove('bg-gray-600');
-      prev_elements[0].classList.remove('bg-gray-600');
-      elements[0].classList.add('bg-gray-600');
-      elements[1].classList.add('bg-gray-600');
+      if(prev_elements[0] != undefined) {
+        prev_elements[0].classList.add('bg-gray-900');
+        prev_elements[1].classList.add('bg-gray-900');
+        prev_elements[0].classList.remove('bg-gray-700');
+        prev_elements[0].classList.remove('bg-gray-700');
+      }
+      elements[0].classList.add('bg-gray-700');
+      elements[1].classList.add('bg-gray-700');
       elements[0].classList.remove('bg-gray-900');
       elements[0].classList.remove('bg-gray-900');
     }
@@ -356,26 +364,44 @@ document.addEventListener('keydown', function(event) {
         'bg-gray-900',
       );
       const prev_elements = document.activeElement.parentElement.getElementsByClassName(
-        'bg-gray-600',
+        'bg-gray-700',
       );
-      prev_elements[0].classList.add('bg-gray-900');
-      prev_elements[1].classList.add('bg-gray-900');
-      prev_elements[0].classList.remove('bg-gray-600');
-      prev_elements[0].classList.remove('bg-gray-600');
-      elements[0].classList.add('bg-gray-600');
-      elements[1].classList.add('bg-gray-600');
+      if(prev_elements[0] != undefined) {
+        prev_elements[0].classList.add('bg-gray-900');
+        prev_elements[1].classList.add('bg-gray-900');
+        prev_elements[0].classList.remove('bg-gray-700');
+        prev_elements[0].classList.remove('bg-gray-700');
+      }
+      elements[0].classList.add('bg-gray-700');
+      elements[1].classList.add('bg-gray-700');
       elements[0].classList.remove('bg-gray-900');
       elements[0].classList.remove('bg-gray-900');
     }
   } else if (event.keyCode === 13) {
     event.preventDefault();
     let keys = [];
-    const elements = document.activeElement.getElementsByTagName('span');
-    for (i = 0; i < elements.length; i++) {
-      keys.push(elements[i].innerText.toLowerCase());
+    if(document.getElementsByClassName('bg-gray-500').length > 0) {
+      const els = document.getElementsByClassName('bg-gray-500');
+      for(let x = 0; x < els.length/2; x++) {
+        const val = els[x*2+1].getElementsByTagName('span');
+        for (let s = 0; s < val.length; s++) {
+          keys.push(val[s].innerText.toLowerCase());
+          if(keys[s].charCodeAt(0) >= 97 && keys[s].charCodeAt(0) <= 122) {
+            keyboard_trigger(keys);
+          }
+        }
+        keys = [];
+      }
+      document.body.removeChild(document.getElementById('main_element'));
+    } else {
+      const elements = document.activeElement.getElementsByTagName('span');
+      for (i = 0; i < elements.length; i++) {
+        keys.push(elements[i].innerText.toLowerCase());
+        console.log(keys[i].charCodeAt(0));
+      }
+      //keyboard_trigger(keys);
+      document.body.removeChild(document.getElementById('main_element'));
     }
-    keyboard_trigger(keys);
-    document.body.removeChild(document.getElementById('main_element'));
   }
 });
 
