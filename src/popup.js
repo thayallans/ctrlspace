@@ -85,8 +85,8 @@ document.addEventListener('keydown', function(event) {
       background_element.style.transition = '2.5s';
 
       var popup_element = document.createElement('div');
-      popup_element.innerHTML = '<div style="height: 800px; overflow: hidden;"><div id="mainDiv" style="width: 100%; height: 100%; overflow-y: scroll;"><div class="flex"></div></div></div>';
-      popup_element.style.width = '75%';
+      popup_element.innerHTML = '<div style="height: 100%; overflow: hidden;"><div id="mainDiv" style="width: 100%; height: 100%; overflow-y: scroll;"><div class="flex"></div></div></div>';
+      popup_element.style.width = '80%';
       popup_element.style.height = '75%';
       popup_element.style.zIndex = '1000';
       popup_element.style.position = 'absolute';
@@ -96,6 +96,7 @@ document.addEventListener('keydown', function(event) {
       popup_element.style.right = '0px';
       popup_element.style.margin = 'auto';
       popup_element.style.opacity = '99%';
+      popup_element.classList.add('bg-gray-900');
       shortcut_map_element.appendChild(background_element);
       shortcut_map_element.appendChild(popup_element);
       document.body.appendChild(shortcut_map_element);
@@ -104,8 +105,22 @@ document.addEventListener('keydown', function(event) {
         const all_sections = json.sections;
         let all_shortcuts = [];
         const main_div = document.getElementById('mainDiv');
+        main_div.style.display = 'flex';
+        var column_div = document.createElement('div');
+        column_div.style.float = 'left';
+        column_div.style.display = 'inline-block';
+        let counter = 0;
         all_sections.forEach((section) => {
           section.shortcuts.forEach((shortcut) => {
+            counter++;
+            const val = Math.ceil(parseInt(json.meta_description.match(/\d+/)[0])/3);
+            console.log(val);
+            if (counter == val) {
+              column_div = document.createElement('div');
+              column_div.style.float = 'left';
+              column_div.style.display = 'inline-block';
+              counter = 0;
+            }
             var outer_div = document.createElement('div');
             outer_div.classList.add('flex');
             var first_outer_div = document.createElement('div');
@@ -114,7 +129,8 @@ document.addEventListener('keydown', function(event) {
             first_outer_div.classList.add('h-12');
             var first_inner_div = document.createElement('div');
             first_inner_div.classList.add('px-6');
-            first_inner_div.classList.add('py-3');
+            first_inner_div.classList.add('py-4');
+            first_inner_div.style.width = '250px';
             var inner_p = document.createElement('p');
             inner_p.classList.add('text-lg');
             inner_p.classList.add('font-semibold');
@@ -126,32 +142,37 @@ document.addEventListener('keydown', function(event) {
             second_outer_div.classList.add('bg-gray-900');
             second_outer_div.classList.add('h-12');
             var second_inner_div = document.createElement('div');
-            second_inner_div.classList.add('px-6');
+            second_inner_div.classList.add('px-2');
             second_inner_div.classList.add('py-3');
+            second_inner_div.style.width = '250px';
             var second_even_inner_div = document.createElement('div');
             second_even_inner_div.style.textAlign = 'left';
+    
             shortcut.keys.forEach((key) => {
               var key_span = document.createElement('span');
               key_span.classList.add('inline-block');
               key_span.classList.add('bg-gray-200');
               key_span.classList.add('rounded-full');
-              key_span.classList.add('px-3');
+              key_span.classList.add('px-2');
               key_span.classList.add('mx-1');
               key_span.classList.add('py-1');
               key_span.classList.add('text-sm');
               key_span.classList.add('font-semibold');
               key_span.classList.add('text-gray-700');
               key_span.innerText = key;
+              key_span.style.float = 'left';
+              key_span.style.display = 'inline-block';
               second_even_inner_div.appendChild(key_span);
             });
+    
             first_inner_div.appendChild(inner_p);
             first_outer_div.appendChild(first_inner_div);
             second_inner_div.appendChild(second_even_inner_div);
             second_outer_div.appendChild(second_inner_div);
             outer_div.appendChild(first_outer_div);
-            outer_div.appendChild(second_outer_div);
-            main_div.appendChild(outer_div);
-            outer_div.style.outline = 'none';
+            outer_div.appendChild(second_outer_div)
+            column_div.appendChild(outer_div);
+            main_div.appendChild(column_div);
             all_shortcuts.push(shortcut);
           });
         });
@@ -165,7 +186,9 @@ document.addEventListener('keydown', function(event) {
     !document.getElementById('main_element')
   ) {
     if (file != '') {
-      document.body.removeChild(document.getElementById('shortcut_map_element'));
+      if(document.getElementById('shortcut_map_element')) {
+        document.body.removeChild(document.getElementById('shortcut_map_element'));
+      }
       var main_element = document.createElement('div');
       main_element.id = 'main_element';
       var background_element = document.createElement('div');
