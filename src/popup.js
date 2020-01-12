@@ -1,7 +1,7 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (window.location.href.includes('figma.com')) {
+  if (window.location.href.includes('figma.com') || window.location.href.includes('trello.com')) {
     var link = $('<link />', {
       rel: 'stylesheet',
       type: 'text/css',
@@ -12,10 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('keydown', function(event) {
+  console.log(event);
   let input, filter, ul, li, a, i, txtValue;
   input = document.getElementById('search');
   if (input != undefined) {
-    filter = input.value.toUpperCase();
+    if(input.value != undefined) {
+      filter = input.value.toUpperCase();
+    }
     var elements = document.getElementsByClassName('w-1/2 h-12');
     var current_elements = [];
     for (i = 0; i < elements.length; i++) {
@@ -35,37 +38,16 @@ document.addEventListener('keydown', function(event) {
   let file = '';
   if (window.location.href.includes('airtable.com')) {
     file = 'mac_content/mac_airtable.json';
-  } else if (window.location.href.includes('asana.com')) {
-    file = 'mac_content/mac_asana.json';
-  } else if (window.location.href.includes('discordapp.com')) {
-    file = 'mac_content/mac_discord.json';
-  } else if (window.location.href.includes('evernote.com')) {
-    file = 'mac_content/mac_evernote.json';
   } else if (window.location.href.includes('figma.com')) {
     file = 'mac_content/mac_figma.json';
-  } else if (window.location.href.includes('framer.com')) {
-    file = 'mac_content/mac_framer-x.json';
   } else if (window.location.href.includes('github.com')) {
     file = 'mac_content/mac_github.json';
-  } else if (window.location.href.includes('drive.google.com')) {
-    file = 'mac_content/mac_google-drive.json';
-  } else if (window.location.href.includes('jira.com')) {
-    file = 'mac_content/mac_jira.json';
-  } else if (window.location.href.includes('monday.com')) {
-    file = 'mac_content/mac_monday.json';
   } else if (window.location.href.includes('notion.so')) {
     file = 'mac_content/mac_notion.json';
-  } else if (window.location.href.includes('proto.io')) {
-    file = 'mac_content/mac_proto-io.json';
-  } else if (window.location.href.includes('quip.com')) {
-    file = 'mac_content/mac_quip.json';
   } else if (window.location.href.includes('slack.com')) {
     file = 'mac_content/mac_slack.json';
-  } else if (window.location.href.includes('trello.com')) {
-    file = 'mac_content/mac_trello.json';
-  } else if (window.location.href.includes('youtube.com')) {
-    file = 'mac_content/mac_youtube.json';
   }
+  
   if (event.keyCode === 88 && document.getElementById('main_element')) {
     const selected_elements = document.getElementsByClassName('bg-gray-700');
     selected_elements[0].classList.add('bg-gray-500');
@@ -403,7 +385,8 @@ document.addEventListener('keydown', function(event) {
       }
       document.body.removeChild(document.getElementById('main_element'));
     }
-  } else if ((document.getElementById('main_element') || document.getElementById('shortcut_map_element')) && document.getElementById('search') != document.activeElement) {
+  } else if ((document.getElementById('main_element') || document.getElementById('shortcut_map_element')) && document.getElementById('search') != document.activeElement && event.isTrusted) {
+    console.log(document.getElementById('main_element'));
     event.preventDefault();
     event.stopImmediatePropagation();
     const elements = document.getElementsByClassName('bg-gray-700');
