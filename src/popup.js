@@ -66,8 +66,11 @@ document.addEventListener('keydown', function(event) {
   } else if (window.location.href.includes('youtube.com')) {
     file = 'mac_content/mac_youtube.json';
   }
-  if (event.keyCode === 32 && event.ctrlKey && event.shiftKey) {
+  if (event.keyCode === 32 && event.ctrlKey && event.shiftKey && !document.getElementById('shortcut_map_element')) {
     if (file != '') {
+      if(document.getElementById('main_element')){
+        document.body.removeChild(document.getElementById('main_element'));
+      }
       var shortcut_map_element = document.createElement('div');
       shortcut_map_element.id = 'shortcut_map_element';
       var background_element = document.createElement('div');
@@ -154,12 +157,15 @@ document.addEventListener('keydown', function(event) {
         });
       });
     }
+  } else if (event.keyCode === 32 && event.ctrlKey && event.shiftKey && document.getElementById('shortcut_map_element')) {
+    document.body.removeChild(document.getElementById('shortcut_map_element'));
   } else if (
     event.keyCode === 32 &&
     event.ctrlKey &&
     !document.getElementById('main_element')
   ) {
     if (file != '') {
+      document.body.removeChild(document.getElementById('shortcut_map_element'));
       var main_element = document.createElement('div');
       main_element.id = 'main_element';
       var background_element = document.createElement('div');
