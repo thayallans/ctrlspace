@@ -1,0 +1,422 @@
+{
+    "view": "layout.shortcut",
+    "slug": "quip",
+    "title": "Quip.com",
+    "meta_title": "Keyboard shortcuts for Quip",
+    "meta_description": "A visual cheat-sheet for the 52 keyboard shortcuts found in Quip",
+    "reference_link": "https://www.quipsupport.com/hc/en-us/articles/210436306-What-are-Quip-s-keyboard-shortcuts-",
+    "sections": [
+        {
+            "name": "Anywhere",
+            "shortcuts": [
+                {
+                    "description": "Toggle styles between different types of headings and lists  ",
+                    "keys": [
+                        "`"
+                    ]
+                },
+                {
+                    "description": "Indent a list item",
+                    "keys": [
+                        "Tab"
+                    ]
+                },
+                {
+                    "description": "De-indent a list item",
+                    "keys": [
+                        "Shift",
+                        "Tab"
+                    ]
+                },
+                {
+                    "description": "Add a single space between lines ",
+                    "keys": [
+                        "Shift",
+                        "Enter"
+                    ]
+                },
+                {
+                    "description": "Stop editing",
+                    "keys": [
+                        "Esc"
+                    ]
+                },
+                {
+                    "description": "List all keyboard shortcuts ",
+                    "keys": [
+                        "Cmd",
+                        "/"
+                    ]
+                },
+                {
+                    "description": "Create a new ...",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "Shift",
+                        "N"
+                    ]
+                },
+                {
+                    "description": "Create a new document",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "N"
+                    ]
+                },
+                {
+                    "description": "Create a new message",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "M"
+                    ]
+                },
+                {
+                    "description": "Go to the desktop",
+                    "keys": [
+                        "Cmd",
+                        "Shift",
+                        "D"
+                    ]
+                },
+                {
+                    "description": "Search for a document, folder, or conversation  ",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "O"
+                    ]
+                },
+                {
+                    "description": "Move between tabs in the desktop app  ",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        " Alt Left"
+                    ]
+                },
+                {
+                    "description": "Move between tabs in the desktop app    ",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "Right"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Style Shortcuts",
+            "shortcuts": [
+                {
+                    "description": "Bold the selected text",
+                    "keys": [
+                        "Cmd",
+                        "B"
+                    ]
+                },
+                {
+                    "description": "Italicize the selected text ",
+                    "keys": [
+                        "Cmd",
+                        "I"
+                    ]
+                },
+                {
+                    "description": "Underline the selected text ",
+                    "keys": [
+                        "Cmd",
+                        "U"
+                    ]
+                },
+                {
+                    "description": "Strikethrough the selected text ",
+                    "keys": [
+                        "Cmd",
+                        "Shift",
+                        "X"
+                    ]
+                },
+                {
+                    "description": "Monospace (code style) the selected text  ",
+                    "keys": [
+                        "Cmd",
+                        "Shift",
+                        "K"
+                    ]
+                },
+                {
+                    "description": "Paragraph (normal text style) ",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "0"
+                    ]
+                },
+                {
+                    "description": "Large heading style",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "1"
+                    ]
+                },
+                {
+                    "description": "Medium heading style",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "2"
+                    ]
+                },
+                {
+                    "description": "Small heading style",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "3"
+                    ]
+                },
+                {
+                    "description": "Bulleted list style",
+                    "keys": [
+                        "Cmd",
+                        "Shift",
+                        "L"
+                    ]
+                },
+                {
+                    "description": "Code block style",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "K"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Editing Shortcuts",
+            "shortcuts": [
+                {
+                    "description": "Move a list item up one line ",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "Up"
+                    ]
+                },
+                {
+                    "description": "Move a list item down one line ",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "Down"
+                    ]
+                },
+                {
+                    "description": "Check a list item",
+                    "keys": [
+                        "Cmd",
+                        "Enter"
+                    ]
+                },
+                {
+                    "description": "Undo",
+                    "keys": [
+                        "Cmd",
+                        "Z"
+                    ]
+                },
+                {
+                    "description": "Redo",
+                    "keys": [
+                        "Cmd",
+                        "Shift",
+                        "Z"
+                    ]
+                },
+                {
+                    "description": "Cut",
+                    "keys": [
+                        "Cmd",
+                        "X"
+                    ]
+                },
+                {
+                    "description": "Copy",
+                    "keys": [
+                        "Cmd",
+                        "C"
+                    ]
+                },
+                {
+                    "description": "Paste",
+                    "keys": [
+                        "Cmd",
+                        "V"
+                    ]
+                },
+                {
+                    "description": "Print document",
+                    "keys": [
+                        "Cmd",
+                        "P"
+                    ]
+                },
+                {
+                    "description": "Insert link",
+                    "keys": [
+                        "Cmd",
+                        "K"
+                    ]
+                },
+                {
+                    "description": "Next line",
+                    "keys": [
+                        "Cmd",
+                        "N"
+                    ]
+                },
+                {
+                    "description": "Previous line",
+                    "keys": [
+                        "Cmd",
+                        "P"
+                    ]
+                },
+                {
+                    "description": "Hide or show conversation ",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "C"
+                    ]
+                },
+                {
+                    "description": "Add a comment",
+                    "keys": [
+                        "Cmd",
+                        "Shift",
+                        "C"
+                    ]
+                },
+                {
+                    "description": "Finish edit session",
+                    "keys": [
+                        "Cmd",
+                        "Alt",
+                        "S"
+                    ]
+                },
+                {
+                    "description": "Create an anchor link",
+                    "keys": [
+                        "Cmd",
+                        "Shift",
+                        "A"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Spreadsheets",
+            "shortcuts": [
+                {
+                    "description": "Move to the edge of dat or the next non-empty cell  ",
+                    "keys": [
+                        "Cmd",
+                        "(arrows)"
+                    ]
+                },
+                {
+                    "description": "Expand select to the edge of data or the next non-empty cell  ",
+                    "keys": [
+                        "Cmd",
+                        "Shift",
+                        "(arrows)"
+                    ]
+                },
+                {
+                    "description": "Select row",
+                    "keys": [
+                        "Shift",
+                        "Space"
+                    ]
+                },
+                {
+                    "description": "Select column",
+                    "keys": [
+                        "Cmd",
+                        "Space"
+                    ]
+                },
+                {
+                    "description": "Fill selection with entered text ",
+                    "keys": [
+                        "Cmd",
+                        "Enter"
+                    ]
+                },
+                {
+                    "description": "Fill down in selection",
+                    "keys": [
+                        "Cmd",
+                        "D"
+                    ]
+                },
+                {
+                    "description": "Fill right in selection ",
+                    "keys": [
+                        "Cmd",
+                        "R"
+                    ]
+                },
+                {
+                    "description": "Scroll focused cell into view ",
+                    "keys": [
+                        "Cmd",
+                        "Backspace"
+                    ]
+                },
+                {
+                    "description": "Insert above or in front of selected rows or columns  ",
+                    "keys": [
+                        "Cmd",
+                        "I"
+                    ]
+                },
+                {
+                    "description": "Remove selected rows or columns ",
+                    "keys": [
+                        "Cmd",
+                        "-"
+                    ]
+                },
+                {
+                    "description": "Insert current time",
+                    "keys": [
+                        "Cmd",
+                        ";"
+                    ]
+                },
+                {
+                    "description": "Insert today's date",
+                    "keys": [
+                        "Cmd",
+                        ":"
+                    ]
+                },
+                {
+                    "description": "Hard return within a cell ",
+                    "keys": [
+                        "Alt",
+                        "Enter"
+                    ]
+                }
+            ]
+        }
+    ]
+}
