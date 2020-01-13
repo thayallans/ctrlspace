@@ -11,13 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   chrome.storage.sync.get('rundown_date', (val) => {
-    console.log(val.rundown_date);
     let date = new Date(val.rundown_date);
     let today = new Date();
     today.setDate(today.getDate());
-    console.log(date);
-    console.log(today);
-    console.log(today - date);
     if(today - date > 0) {
       chrome.storage.sync.set({'logged_in': 'false'}, function() {
         console.log('user not logged in');
@@ -28,9 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener("message", function(event) {
   // We only accept messages from ourselves
+  console.log(event.data);
   if (event.source != window)
       return;
-    chrome.runtime.sendMessage(event.data.text);
+    chrome.runtime.sendMessage(event.data);
     window.close();
 });
 
@@ -403,6 +400,7 @@ document.addEventListener('keydown', function(event) {
         for (let s = 0; s < val.length; s++) {
           keys.push(val[s].innerText.toLowerCase());
           if(keys[s].charCodeAt(0) >= 32 && keys[s].charCodeAt(0) <= 127 && keys[s].length == 1) {
+            mixpanel.track('Shortcut Triggered');
             keyboard_trigger(keys);
           }
         }
@@ -414,6 +412,7 @@ document.addEventListener('keydown', function(event) {
       for (i = 0; i < elements.length; i++) {
         keys.push(elements[i].innerText.toLowerCase());
         if(keys[i].charCodeAt(0) >= 32 && keys[i].charCodeAt(0) <= 127 && keys[i].length == 1) {
+          mixpanel.track('Shortcut Triggered');
           keyboard_trigger(keys);
         }
       }
