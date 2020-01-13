@@ -9,10 +9,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     $('head').append(link);
   }
+
+  chrome.storage.sync.get('rundown_date', (val) => {
+    let date = new Date(val.rundown_date);
+    let today = new Date();
+    today.setDate(today.getDate());
+    if(today - date > 0) {
+      chrome.storage.sync.set({'logged_in': 'false'}, function() {
+        console.log('user not logged in');
+      });
+    }
+  });
+});
+
+window.addEventListener("message", function(event) {
+  // We only accept messages from ourselves
+  console.log(event.data);
+  if (event.source != window)
+      return;
+    chrome.runtime.sendMessage(event.data);
+    window.close();
 });
 
 document.addEventListener('keydown', function(event) {
-  console.log(event);
   let input, filter, ul, li, a, i, txtValue;
   input = document.getElementById('search');
   if (input != undefined) {
@@ -47,6 +66,16 @@ document.addEventListener('keydown', function(event) {
   } else if (window.location.href.includes('slack.com')) {
     file = 'mac_content/mac_slack.json';
   }
+  chrome.storage.sync.get('logged_in', (val) => {
+    console.log(val.logged_in);
+    if(event.keyCode === 32 && event.ctrlKey && val.logged_in == 'false') {
+      window.open('https://ctrlspace.app/login.html','_blank');
+      document.body.removeChild(document.getElementById('main_element'));
+    } else if (event.keyCode === 32 && event.ctrlKey && event.shiftKey && val.logged_in == 'false') {
+      window.open('https://ctrlspace.app/login.html','_blank');
+      document.body.removeChild(document.getElementById('shortcut_map_element'));
+    }
+  });
   
   if (event.keyCode === 88 && document.getElementById('main_element')) {
     const selected_elements = document.getElementsByClassName('bg-gray-700');
@@ -284,7 +313,9 @@ document.addEventListener('keydown', function(event) {
             second_outer_div.appendChild(second_inner_div);
             outer_div.appendChild(first_outer_div);
             outer_div.appendChild(second_outer_div);
-            main_div.appendChild(outer_div);
+            if(main_div != null) {
+              main_div.appendChild(outer_div);
+            }
             outer_div.style.outline = 'none';
             all_shortcuts.push(shortcut);
           });
@@ -369,6 +400,7 @@ document.addEventListener('keydown', function(event) {
         for (let s = 0; s < val.length; s++) {
           keys.push(val[s].innerText.toLowerCase());
           if(keys[s].charCodeAt(0) >= 32 && keys[s].charCodeAt(0) <= 127 && keys[s].length == 1) {
+            mixpanel.track('Shortcut Triggered');
             keyboard_trigger(keys);
           }
         }
@@ -380,12 +412,13 @@ document.addEventListener('keydown', function(event) {
       for (i = 0; i < elements.length; i++) {
         keys.push(elements[i].innerText.toLowerCase());
         if(keys[i].charCodeAt(0) >= 32 && keys[i].charCodeAt(0) <= 127 && keys[i].length == 1) {
+          mixpanel.track('Shortcut Triggered');
           keyboard_trigger(keys);
         }
       }
       document.body.removeChild(document.getElementById('main_element'));
     }
-  } else if ((document.getElementById('main_element') || document.getElementById('shortcut_map_element')) && document.getElementById('search') != document.activeElement && event.isTrusted) {
+  } else if (document.getElementById('main_element') && document.getElementById('search') != document.activeElement && event.isTrusted) {
     console.log(document.getElementById('main_element'));
     event.preventDefault();
     event.stopImmediatePropagation();
