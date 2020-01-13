@@ -11,36 +11,18 @@ chrome.runtime.onInstalled.addListener((details) => {
   });
 });
 
-firebase.initializeApp({
-  apiKey: 'AIzaSyAFcFucaZr6IoJo8ew56PpC5N7NIKw1jKg',
-  authDomain: 'lipid-327dc.firebaseapp.com',
-  projectId: 'lipid-327dc'
-});
-
 function on_message() {
   chrome.runtime.onMessage.addListener((msg, sender, response) => {
     console.log(msg);
-    if (msg.command == "login"){
-      firebase.auth().signOut();
-      firebase.auth().signInWithEmailAndPassword(msg.email, msg.password).then(() => {
-        console.log(firebase.auth().current_user);
-        response({status: 'success'});
-        return true;
-      }).catch((error) => {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-        console.log(errorCode);
-        console.log(errorMessage);
+    if (msg == "log_user_in"){
+      chrome.storage.sync.set({'logged_in': 'true'}, () => {
+        var date = new Date();
+        date.setDate(date.getDate()+7);
+        chrome.storage.sync.set({'rundown_date': date.toISOString()}, () => {
+          console.log(date.toISOString());
+        });
       });
-      chrome.storage.sync.set({'logged_in': 'true'}, function() {
-        console.log('user logged in');
-      });
-    } else if (msg.command == "get_current_user") {
-      response({user: firebase.auth().currentUser});
     }
-    return true;
   });
 }
 

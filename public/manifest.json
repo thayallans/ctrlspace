@@ -17,13 +17,13 @@
     "default_title": "ctrlspace"
   },
   "permissions": [
-    "<all_urls>",
     "storage",
     "tabs"
   ],
   "content_scripts": [
     {
       "matches": [
+        "<all_urls>",
         "https://github.com/*",
         "https://app.slack.com/*",
         "https://www.notion.so/*",
