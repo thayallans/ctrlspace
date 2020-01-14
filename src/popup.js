@@ -400,7 +400,6 @@ document.addEventListener('keydown', function(event) {
         for (let s = 0; s < val.length; s++) {
           keys.push(val[s].innerText.toLowerCase());
           if(keys[s].charCodeAt(0) >= 32 && keys[s].charCodeAt(0) <= 127 && keys[s].length == 1) {
-            mixpanel.track('Shortcut Triggered');
             keyboard_trigger(keys);
           }
         }
@@ -412,7 +411,6 @@ document.addEventListener('keydown', function(event) {
       for (i = 0; i < elements.length; i++) {
         keys.push(elements[i].innerText.toLowerCase());
         if(keys[i].charCodeAt(0) >= 32 && keys[i].charCodeAt(0) <= 127 && keys[i].length == 1) {
-          mixpanel.track('Shortcut Triggered');
           keyboard_trigger(keys);
         }
       }
