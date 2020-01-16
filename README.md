@@ -18,7 +18,6 @@ Node 12.13.0
 - Please use [Prettier](https://prettier.io/) when you can to keep things consistent.
 - We use underscores for variable names (snake case) and functions vs camelCase.
 - Always conform to the style of the file
-- "Maintainable code is more important than clever code" - Guido van Rossum 
 
 ## Visual Studio Code
 
